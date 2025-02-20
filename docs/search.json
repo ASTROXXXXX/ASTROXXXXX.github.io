@@ -1,16 +1,23 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Zhesheng(Jason) Xu",
+    "objectID": "Childcare Costs.html",
+    "href": "Childcare Costs.html",
+    "title": "Childcare Costs",
     "section": "",
-    "text": "Hi there! I’m Jason, my hometown is Shanghai, China! I am currently a student at Pomona College, CA, where I am studying neuroscience and data science. I am also a part of a club called Health Bridges where I get to volunteer at Pomona Valley Hospital as a non-medical translator! In my free time, I like to play the guitar (Chinese folk songs are my favorite!). Look around my website to learn more!\nI used Quarto to build this website, the link to the repository is here: https://github.com/ASTROXXXXX/ASTROXXXXX.github.io"
+    "text": "This dataset comes from the National Database of Childcare Prices (NDCP), which is (one of) the most comprehensive federal source of childcare at the county level. Data provided by Thomas Mock.\n\nlibrary(tidyverse)\n\nchildcare_costs &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-05-09/childcare_costs.csv')\n\nchildcare_costs |&gt;\nggplot( aes( x = mcsa, y = pr_f ) ) +\n  geom_point(color = \"blue\", alpha = 0.1) +\n  labs( x = \"median price charged for center-based care who are school age\",\n        y = \"poverty rate for familie\" )\n\n\n\n\n\n\n\n\nData taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data\nData originally sourced from National Database of Childcare Prices:\nhttps://www.dol.gov/agencies/wb/topics/featured-childcare"
   },
   {
     "objectID": "The Scent of Data.html",
     "href": "The Scent of Data.html",
     "title": "The Scent of Data",
     "section": "",
-    "text": "This dataset contains information about perfumes webscraped from Parfumo (community of perfume enthusiasts) by Olga G..\n\nparfumo_data_clean &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-12-10/parfumo_data_clean.csv')\n\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ forcats   1.0.0     ✔ readr     2.1.5\n✔ ggplot2   3.5.1     ✔ stringr   1.5.1\n✔ lubridate 1.9.4     ✔ tibble    3.2.1\n✔ purrr     1.0.2     ✔ tidyr     1.3.1\n\n\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nbrand_vs_rating &lt;- parfumo_data_clean |&gt;\n  group_by(Brand) |&gt;\n  summarize( Average_Rating_Value = mean(Rating_Value, na.rm = TRUE) ) |&gt;\n  arrange( desc( Average_Rating_Value ) ) \n\ntop10_brand_vs_rating &lt;- head( brand_vs_rating, 10)\n  \nggplot( top10_brand_vs_rating, aes( x = Brand, y = Average_Rating_Value, fill = Brand ) ) +\n  geom_bar( stat = \"identity\") +\n  theme(axis.text.x = element_blank())\n\n\n\n\n\n\n\n\nData taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data"
+    "text": "This dataset contains information about perfumes webscraped from Parfumo (community of perfume enthusiasts) by Olga G..\n\nlibrary(dplyr)\nlibrary(tidyverse)\n\nparfumo_data_clean &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-12-10/parfumo_data_clean.csv')\n\nbrand_vs_rating &lt;- parfumo_data_clean |&gt;\n  group_by(Brand) |&gt;\n  summarize( Average_Rating_Value = mean(Rating_Value, na.rm = TRUE) ) |&gt;\n  arrange( desc( Average_Rating_Value ) ) \n\ntop10_brand_vs_rating &lt;- head( brand_vs_rating, 10)\n  \nggplot( top10_brand_vs_rating, aes( x = Brand, y = Average_Rating_Value, fill = Brand ) ) +\n  geom_bar( stat = \"identity\") +\n  theme(axis.text.x = element_blank())\n\n\n\n\n\n\n\n\nData taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data\nData originally sourced from Perfumo:\nhttps://www.parfumo.com/"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Zhesheng(Jason) Xu",
+    "section": "",
+    "text": "Hi there! I’m Jason, my hometown is Shanghai, China! I am currently a student at Pomona College, CA, where I am studying neuroscience and data science. I am also a part of a club called Health Bridges where I get to volunteer at Pomona Valley Hospital as a non-medical translator! In my free time, I like to play the guitar (Chinese folk songs are my favorite!). Look around my website to learn more!\nI used Quarto to build this website, the link to the repository is here: https://github.com/ASTROXXXXX/ASTROXXXXX.github.io"
   }
 ]

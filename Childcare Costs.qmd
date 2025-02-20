@@ -1,0 +1,26 @@
+---
+title: "Childcare Costs"
+description: |
+  Analysis of Childcare Costs Dataset from TidyTuesday
+format: html
+---
+
+This dataset comes from the National Database of Childcare Prices (NDCP), which is (one of) the most comprehensive federal source of childcare at the county level. Data provided by Thomas Mock.  
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+
+childcare_costs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-05-09/childcare_costs.csv')
+
+childcare_costs |>
+ggplot( aes( x = mcsa, y = pr_f ) ) +
+  geom_point(color = "blue", alpha = 0.1) +
+  labs( x = "median price charged for center-based care who are school age",
+        y = "poverty rate for familie" )
+```
+
+Data taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data      
+Data originally sourced from National Database of Childcare Prices:     
+https://www.dol.gov/agencies/wb/topics/featured-childcare
