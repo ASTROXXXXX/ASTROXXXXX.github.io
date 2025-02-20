@@ -1,0 +1,38 @@
+---
+title: "The Scent of Data"
+description: |
+  Analysis of Parfumo Fragrance Dataset from TidyTuesday
+format: html
+---
+
+This dataset contains information about perfumes webscraped from Parfumo (community of perfume enthusiasts) by [Olga G.](https://www.kaggle.com/olgagmiufana1).
+
+```{r}
+#| message: false
+#| warning: false
+parfumo_data_clean <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-12-10/parfumo_data_clean.csv')
+```
+
+
+```{r}
+library(dplyr)
+library(tidyverse)
+
+brand_vs_rating <- parfumo_data_clean |>
+  group_by(Brand) |>
+  summarize( Average_Rating_Value = mean(Rating_Value, na.rm = TRUE) ) |>
+  arrange( desc( Average_Rating_Value ) ) 
+
+top10_brand_vs_rating <- head( brand_vs_rating, 10)
+  
+ggplot( top10_brand_vs_rating, aes( x = Brand, y = Average_Rating_Value, fill = Brand ) ) +
+  geom_bar( stat = "identity") +
+  theme(axis.text.x = element_blank())
+
+```
+
+
+
+
+
+Data taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data

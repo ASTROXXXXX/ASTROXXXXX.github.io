@@ -10,8 +10,8 @@ website:
         text: Home
       - text: Data Viz
         menu:
-        - text: viz 1
-          # href:
+        - text: Scent & Frangrance
+          href: The Scent of Data.qmd
         - text: viz 2
           # href:
         
