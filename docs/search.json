@@ -1,16 +1,9 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "ASTROXXXXX.github.io",
+    "title": "Zhesheng(Jason) Xu",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+    "text": "Hi there! I’m Jason, my hometown is Shanghai, China! I am currently a student at Pomona College, CA, where I am studying neuroscience and data science. I am also a part of a club called Health Bridges where I get to volunteer at Pomona Valley Hospital as a non-medical translator! In my free time, I like to play the guitar (Chinese folk songs are my favorite!). Look around my website to learn more!\nI used Quarto to build this website, the link to the repository is here: https://github.com/ASTROXXXXX/ASTROXXXXX.github.io"
   }
 ]

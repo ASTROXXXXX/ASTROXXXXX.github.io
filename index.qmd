@@ -1,11 +1,19 @@
 ---
-title: "ASTROXXXXX.github.io"
+title: "Zhesheng(Jason) Xu"
+image: jasonprofilepic.png
+about: 
+  template: jolla
+  image-shape: round
+  image-width: 17em
+  links:
+    - text: LinkedIn
+      href: https://www.linkedin.com/in/jason9092936178/
+    - text: GitHub
+      href: https://github.com/ASTROXXXXX
+    - text: Email
+      href: mailto:zxdn2022@mymail.pomona.edu
 ---
 
-This is a Quarto website.
+Hi there! I'm Jason, my hometown is Shanghai, China! I am currently a student at Pomona College, CA, where I am studying neuroscience and data science. I am also a part of a club called Health Bridges where I get to volunteer at Pomona Valley Hospital as a non-medical translator! In my free time, I like to play the guitar (Chinese folk songs are my favorite!). Look around my website to learn more!
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
-```
+I used Quarto to build this website, the link to the repository is here: <https://github.com/ASTROXXXXX/ASTROXXXXX.github.io>

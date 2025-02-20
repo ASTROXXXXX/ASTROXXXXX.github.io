@@ -3,16 +3,23 @@ project:
   output-dir: docs
 
 website:
-  title: "ASTROXXXXX.github.io"
+  title: "Jason Xu"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
-
+      - text: Data Viz
+        menu:
+        - text: viz 1
+          # href:
+        - text: viz 2
+          # href:
+        
 format:
   html:
-    theme: cosmo
+    theme: 
+      light: lumen
+      dark: superhero
     css: styles.css
     toc: true
 
