@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Analysis of Childcare Costs Dataset from TidyTuesday">
+<meta name="description" content="Analysis of Shakespeare Dialogue Dataset from TidyTuesday">
 
-<title>Childcare Costs – Jason Xu</title>
+<title>Macbeth – Jason Xu</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -143,7 +143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Childcare</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./String.qmd">
+    <a class="dropdown-item" href="./Strings.html">
  <span class="dropdown-text">Macbeth</span></a>
   </li>  
     </ul>
@@ -168,12 +168,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Childcare Costs</h1>
+<h1 class="title">Macbeth</h1>
 </div>
 
 <div>
   <div class="description">
-    <p>Analysis of Childcare Costs Dataset from TidyTuesday</p>
+    <p>Analysis of Shakespeare Dialogue Dataset from TidyTuesday</p>
   </div>
 </div>
 
@@ -190,28 +190,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This dataset comes from the National Database of Childcare Prices (NDCP), which is (one of) the most comprehensive federal source of childcare at the county level. Data provided by Thomas Mock.</p>
+<p>This dataset contains the entire script of the famous Shakesqeare play: Macbeth. As a side note, I was actually really into acting back in middle school, and I actually played a character (who’s name I forgot - not a big character) in Macbeth during one of the school shows. I’m excited, let’s go ahead and play with the data :)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>childcare_costs <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-05-09/childcare_costs.csv'</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>childcare_costs <span class="sc">|&gt;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( <span class="fu">aes</span>( <span class="at">x =</span> mcsa, <span class="at">y =</span> pr_f ) ) <span class="sc">+</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>( <span class="at">x =</span> <span class="st">"median price charged for center-based care who are school age"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"poverty rate for familie"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>macbeth <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/macbeth.csv'</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>neg_lines <span class="ot">&lt;-</span> macbeth <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">blood =</span> <span class="fu">str_detect</span>( dialogue, <span class="st">"(?i)blood|(?i)murder[er]|(?i)death|(?i)kill"</span> ) ) <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( blood ) <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>( act ) <span class="sc">|&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>( <span class="at">average_negative_lines =</span> <span class="fu">n</span>() ) </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>average_words <span class="ot">&lt;-</span> macbeth <span class="sc">|&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">string_length =</span> <span class="fu">str_length</span>( dialogue ) ) <span class="sc">|&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>( act ) <span class="sc">|&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>( <span class="at">average_words =</span> <span class="fu">mean</span>( string_length ) ) </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>negative_words <span class="ot">&lt;-</span> <span class="fu">left_join</span>( neg_lines, average_words )</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( negative_words, <span class="fu">aes</span>(<span class="at">x =</span> average_words, <span class="at">y =</span> average_negative_lines, <span class="at">label =</span> act)) <span class="sc">+</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span>  </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span>       </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Average Words vs. Negative Lines in each act of Macbeth"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Average Words per Act"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Lines with Negative Words"</span> ) <span class="sc">+</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Childcare-Costs_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Strings_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>Here, I counted the number of lines in each act of Macbeth that contained one or more “negative words”, which I defined to be “blood”, “murder(er)”, “death” and “kill”. Then, it is paired up with the average number of words in each act (see figure above). I was interested in knowing if a particular act had more lines containing “negative words” than perhaps the characters spoke more on average (or less, there is some relationship is the point). However, just by eyeballing the above plot, it seems like there is no clear relationship between the two. (noticeably, however, Act III is a pretty extreme outlier, if we ignore it the plot actually shows a pretty down-wards trending relationship).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>macbeth <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( character <span class="sc">==</span> <span class="st">"Macbeth"</span> ) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">love_strings =</span> <span class="fu">str_extract</span>( dialogue, <span class="st">"(?&lt;=(?i)love ).+"</span>) ) <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( <span class="sc">!</span><span class="fu">is.na</span>(love_strings) ) <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>( character<span class="sc">:</span>love_strings, <span class="sc">-</span>line_number )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  character dialogue                                             love_strings   
+  &lt;chr&gt;     &lt;chr&gt;                                                &lt;chr&gt;          
+1 Macbeth   Safe toward your love and honour.                    and honour.    
+2 Macbeth   Courage to make 's love kno wn?                      kno wn?        
+3 Macbeth   Grapples you to the heart and love of us,            of us,         
+4 Macbeth   To those that know me. Come, love and health to all; and health to …</code></pre>
+</div>
+</div>
+<p>After looking at the negative, I decided to turn to the opposite — whether if Macbeth, the main character of the play, has explicity expressed “love” in the play, and to whom. So I used the lookaround function to spot instances of Macbeth saying the word “love” and the “love_strings” is whatever comes after “love”. Sadly, these instances only occured 4 times in the whole play and they seem to occur only in more generic settings (like toasting) — poor lady Macbeth :(</p>
 <p>Data taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data<br>
-Data originally sourced from National Database of Childcare Prices:<br>
-https://www.dol.gov/agencies/wb/topics/featured-childcare</p>
+Data originally sourced from:<br>
+https://shakespeare.mit.edu/</p>
 
 
 

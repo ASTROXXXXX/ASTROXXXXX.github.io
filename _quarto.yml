@@ -14,6 +14,8 @@ website:
           href: The Scent of Data.qmd
         - text: Childcare 
           href: Childcare Costs.qmd
+        - text: Macbeth
+          href: Strings.qmd
         
 format:
   html:
