@@ -1,1 +1,13 @@
 /* css styles */
+
+.dropdown-menu {
+    background-color: white; /* Ensures dropdown background is white */
+}
+ 
+.dropdown-menu .dropdown-item {
+    color: black !important; /* Makes text dark for readability */
+}
+ 
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f8f9fa; /* Light gray on hover */
+}
