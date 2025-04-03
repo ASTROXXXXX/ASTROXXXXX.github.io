@@ -16,7 +16,7 @@ website:
           href: Childcare Costs.qmd
         - text: Macbeth
           href: Strings.qmd
-        - text: a place holder
+        - text: Simulations
           href: Simulation Analysis.qmd
         
 format:
