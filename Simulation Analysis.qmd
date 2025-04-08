@@ -8,7 +8,7 @@ Assuming that there are four course registration periods over four years of a st
 2. Moderately Early: 10 ~ noon.      
 3. Moderately Late: noon ~ 2pm.    
 4. Late: 2 ~ 4pm.        
-and suppose that during course registration the algorithm first randomly determines a category and than randomly assigns a time (by each minute) within that category to each student and also makes sure that each category is assigned to each student only once over their four years at the college (i.e four course registrations).
+and suppose that during course registration the algorithm first randomly determines a category and then randomly assigns a time (by each minute) within that category to each student and also makes sure that each category is assigned to each student only once over their four years at the college (i.e four course registrations).
 
 Suppose that the best thing to happen is either A. a freshman gets a time before 9am (so that he/she can beat the other freshmen in the same category) B. a sophomore gets a time before 11am. I want to use simulation to find the probability of A., B. and for the luckiest ones, A. and B. both happen.
 
