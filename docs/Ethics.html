@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Simulation! – Jason Xu</title>
+<title>Ethics in Data Science – Jason Xu</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -175,7 +141,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Simulation!</h1>
+<h1 class="title">Ethics in Data Science</h1>
 </div>
 
 
@@ -192,66 +158,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Assuming that there are four course registration periods over four years of a student’s time at Pomona College (there are actually 8), and course registration happens once per year. Suppose that (drawing from personal experience) the college’s algorithm is designed so that it categorizes registration times into:<br>
-1. Early: 8 ~ 10am.<br>
-2. Moderately Early: 10 ~ noon.<br>
-3. Moderately Late: noon ~ 2pm.<br>
-4. Late: 2 ~ 4pm.<br>
-and suppose that during course registration the algorithm first randomly determines a category and then randomly assigns a time (by each minute) within that category to each student and also makes sure that each category is assigned to each student only once over their four years at the college (i.e four course registrations).</p>
-<p>Suppose that the best thing to happen is either A. a freshman gets a time before 9am (so that he/she can beat the other freshmen in the same category) B. a sophomore gets a time before 11am. I want to use simulation to find the probability of A., B. and for the luckiest ones, A. and B. both happen.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">47</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>corsreg_func <span class="ot">&lt;-</span> <span class="cf">function</span>(banana){</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># shuffle categories</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  cats <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>), <span class="dv">4</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># a random time in 2 hours</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  times <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">120</span>), <span class="dv">4</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">lucky_freshman =</span> (cats[<span class="dv">1</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> times[<span class="dv">1</span>] <span class="sc">&lt;=</span> <span class="dv">59</span>),</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">lucky_sophomore =</span> (cats[<span class="dv">2</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">|</span> cats[<span class="dv">2</span>] <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;&amp;</span> times[<span class="dv">2</span>] <span class="sc">&lt;=</span> <span class="dv">59</span>),</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">luckiest_one =</span> ((cats[<span class="dv">1</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> times[<span class="dv">1</span>] <span class="sc">&lt;=</span> <span class="dv">59</span>) <span class="sc">&amp;&amp;</span> (cats[<span class="dv">2</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">|</span> cats[<span class="dv">2</span>] <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;&amp;</span> times[<span class="dv">2</span>] <span class="sc">&lt;=</span> <span class="dv">59</span>)))</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1761</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>corsreg_data <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span>n, corsreg_func) <span class="sc">|&gt;</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>()</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>summary_data <span class="ot">&lt;-</span> corsreg_data <span class="sc">|&gt;</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">lucky_freshman_prop =</span> <span class="fu">mean</span>(lucky_freshman),</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">lucky_sophomore_prop =</span> <span class="fu">mean</span>(lucky_sophomore),</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">luckiest_one_prop =</span> <span class="fu">mean</span>(luckiest_one)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"category"</span>, <span class="at">values_to =</span> <span class="st">"proportion"</span>)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>summary_data<span class="sc">$</span>category <span class="ot">&lt;-</span> <span class="fu">factor</span>(summary_data<span class="sc">$</span>category, </span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"lucky_freshman_prop"</span>, <span class="st">"lucky_sophomore_prop"</span>, <span class="st">"luckiest_one_prop"</span>))</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(summary_data, <span class="fu">aes</span>(<span class="at">x =</span> category, <span class="at">y =</span> proportion, <span class="at">fill =</span> category)) <span class="sc">+</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Course Registration Simulation at Pomona College"</span>,</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"I simulated 1761 times to approximate the number of students on campus"</span>,</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Proportion"</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(proportion, <span class="dv">3</span>)), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>) <span class="sc">+</span>  </span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Simulation-Analysis_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Seems like there is around 11% probability for a student to be lucky in their course registrations during their freshman year, and a much greater probability (around 36%) for him/her to be lucky in their sophomore year. But getting extremely lucky, where he/she get an early time for both years is extremely rare (around 2%). Despite the fact that I believe getting a time before 9am is pretty important for a freshman to get into a class they wanted, knowing that there is almost 40% students who will get an ideal time in their sophomore year is pretty relieving. Some lucky sophomores may also be lucky in their freshman year, but that rate is low (around 2%). I personally think that the algorithm, as presented here, seems to be decent, because we are getting ideal results for almost 40% of the students in their sophomore year (which is pretty high). But things could also be said about the pretty low rate (11%) to be lucky freshman. But it is also important to note that we have other mechanisms to distribute courses to students who actually need them (or need them more), such as the PERM system or considerations on individual basis.</p>
+<p>Scenario.<br>
+The COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) algorithm is developed by a for-profit company called Northpointe. It is used in courtrooms across the US to help inform sentencing decisions, set bail/bond amounts, and other decision-makings in the criminal justice system (Angwin et al, 2016). The algorithm’s key feature is to produce “risk ratings” for defendants based on their criminal history and their response to a questionnaire of more than 100 questions (Angwin et al, 2016). The ethical consideration is that the algorithm seems to be racial and gender sensitive. It was found that it is “particularly likely to falsely flag black defendants as future criminals, wrongly labeling them this way at almost twice the rate as white defendants” (Angwin et al, 2016), and “women were rated two classes worse then men”. (Drosser et al, 2020).</p>
+<p>It is easy to conclude that the algorithm is biased/or even racist/sexist against defendants, but it may be a bit deeper than that. For one thing, the algorithm seems “accurate” in predicting recidivism rates across race. In other words, there is a similar proportion of white defendants who will re-offend a crime compared to black defendants of the same risk rating (Corbett-Davies et al, 2018), and that seems to be what the risk ratings were initially designed to embody. It has been proposed that, maybe it is impossible for an algorithm to achieve both: 1. well calibrated between groups, where the risk ratings mean the same thing between groups. 2. not falsely flag certain groups more frequently than others (this is called false positives). Maybe it is achievable in a perfect society when everybody in every group receive the same amount of resources, education, etc. But in this world, where inequality and discrimination is not uncommon, especially from the past, racial groups unfortunately may be correlated with the likelihood to commit (or recommit) a crime (this is known as base rate differences). This correlation may be the reason why it may be impossible to do the two things aforementioned (This argument is mainly derived from Corbett-Davies et al, 2018).</p>
+<p>Questions.<br>
+What was the data collection process? Were the observations collected ethically? Are there missing observations?</p>
+<p>An issue with the data collection process could be that data is acquired without the subject’s consent or even without their knowledge. The application of this to the example above could be a bit tricky, because the subjects are suspects of certain crimes. In the algorithm, data are drawn from the defendant’s criminal records (probably automatically) and the defendant’s are given some questions to answer. The fact that a private company can have access to someone’s criminal records may or may not be an issue, but some questions do seem a bit problematic. For example a question would ask if the defendant agree or disagree with statements like “A hungry person has a right to steal” and “If people make me angry or lose my temper, I can be dangerous” (Angwin et al, 2016).</p>
+<p>Is the data being used in unintended ways to the original study?</p>
+<p>Yes, the algorithm is invented by Tim Brennan, former professor of statistics at the University of Colorado. He later sold the algorithm to a for-profit company that currently runs the algorithm. Brennan claimed that his original focus was for the algorithm to “reduce crime rather than punish”, and he “does not like the idea that COMPAS being the sole evidence that a decision would be based upon” (Angwin et al, 2016). But whether he likes it or not, as the algorithm got adopted by many courts and entities in the criminal justice system across the country, and its use has definitely departed from what is original intended.</p>
+<p>Should race be used as a variable? Is it a proxy for something else? What about gender?</p>
+<p>I think whether race is explicitly used as a variable or not, many algorithms, COMPAS included, still effectively “uses” race via other proxy attributes of it (same goes for gender). An interesting thing is that, according to Northpointe, race, gender or any other socially protected categories are actually not explicitly asked in their questions or entered in the algorithm (Angwin et al, 2016). But there is many reason to believe that the algorithm, alternatively, uses other “proxies” for race and gender. For one, the algorithm clearly seems to be predicting female defendants to be “riskier” than male defendants, by 2 risk ratings, according to a study (Drosser et al, 2020).</p>
+<p>Did it create reproducible and extensible work?</p>
+<p>It didn’t. The questions and calculations are mostly not disclosed to the public because of propriety, which made it almost impossible to reproduce the calculations and obtain the same risk ratings (Angwin et al, 2016). More importantly, defendants “rarely have the opportunity to challenge their assessments” because the calculations and how the ratings are calculated is not revealed. This may be unfair to the defendants, and could potentially be detrimental if the risk rating got it wrong.</p>
+<p>Citations.</p>
+<ol type="1">
+<li><p>Angwin, J., Larson, J., Mattu, S., &amp; Kirchner, L. (2016, May 23). Machine bias. ProPublica. https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing.</p></li>
+<li><p>Corbett-Davies, S., &amp; Goel, S. (2018, October 17). A computer program used for bail and sentencing decisions was labeled biased against blacks. It’s actually not that clear. The Washington Post. https://www.washingtonpost.com/news/monkey-cage/wp/2018/10/17/a-computer-program-used-for-bail-and-sentencing-decisions-was-labeled-biased-against-blacks-its-actually-not-that-clear/.</p></li>
+<li><p>Drosser, C. (2020, August 5). In order not to discriminate, we might have to discriminate. The New York Times. https://www.nytimes.com/2020/08/05/magazine/algorithm-discrimination.html.</p></li>
+</ol>
 
 
 

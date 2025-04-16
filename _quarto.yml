@@ -18,7 +18,9 @@ website:
           href: Strings.qmd
         - text: Simulations
           href: Simulation Analysis.qmd
-        
+        - text: Ethics in Data science 
+          href: Ethics.qmd
+          
 format:
   html:
     theme: 

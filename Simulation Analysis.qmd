@@ -3,11 +3,11 @@ title: "Simulation!"
 format: html
 ---
 
-Assuming that there are four course registration periods over four years of a student's time at Pomona College (there are actually 8), and course registration happens once per year. Suppose that (drawing from personal experience) the college's algorithm is designed so that it categorizes registration times into:   
-1. Early: 8 ~ 10am.        
-2. Moderately Early: 10 ~ noon.      
-3. Moderately Late: noon ~ 2pm.    
-4. Late: 2 ~ 4pm.        
+Assuming that there are four course registration periods over four years of a student's time at Pomona College (there are actually 8), and course registration happens once per year. Suppose that (drawing from personal experience) the college's algorithm is designed so that it categorizes registration times into:\
+1. Early: 8 \~ 10am.\
+2. Moderately Early: 10 \~ noon.\
+3. Moderately Late: noon \~ 2pm.\
+4. Late: 2 \~ 4pm.\
 and suppose that during course registration the algorithm first randomly determines a category and then randomly assigns a time (by each minute) within that category to each student and also makes sure that each category is assigned to each student only once over their four years at the college (i.e four course registrations).
 
 Suppose that the best thing to happen is either A. a freshman gets a time before 9am (so that he/she can beat the other freshmen in the same category) B. a sophomore gets a time before 11am. I want to use simulation to find the probability of A., B. and for the luckiest ones, A. and B. both happen.
@@ -61,4 +61,3 @@ ggplot(summary_data, aes(x = category, y = proportion, fill = category)) +
 ```
 
 Seems like there is around 11% probability for a student to be lucky in their course registrations during their freshman year, and a much greater probability (around 36%) for him/her to be lucky in their sophomore year. But getting extremely lucky, where he/she get an early time for both years is extremely rare (around 2%). Despite the fact that I believe getting a time before 9am is pretty important for a freshman to get into a class they wanted, knowing that there is almost 40% students who will get an ideal time in their sophomore year is pretty relieving. Some lucky sophomores may also be lucky in their freshman year, but that rate is low (around 2%). I personally think that the algorithm, as presented here, seems to be decent, because we are getting ideal results for almost 40% of the students in their sophomore year (which is pretty high). But things could also be said about the pretty low rate (11%) to be lucky freshman. But it is also important to note that we have other mechanisms to distribute courses to students who actually need them (or need them more), such as the PERM system or considerations on individual basis.
-
