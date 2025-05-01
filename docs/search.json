@@ -46,6 +46,6 @@
     "href": "SQL.html",
     "title": "Stanford Open Policing Project",
     "section": "",
-    "text": "sadfsd"
+    "text": "con_traffic &lt;- DBI::dbConnect(\n  RMariaDB::MariaDB(),\n  dbname = \"traffic\",\n  host = Sys.getenv(\"TRAFFIC_HOST\"),\n  user = Sys.getenv(\"TRAFFIC_USER\"),\n  password = Sys.getenv(\"TRAFFIC_PWD\")\n)"
   }
 ]

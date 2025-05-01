@@ -3,8 +3,6 @@ title: "Ethics in Data Science"
 format: html
 ---
 
-TEST
-
 Scenario.\
 The COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) algorithm is developed by a for-profit company called Northpointe. It is used in courtrooms across the US to help inform sentencing decisions, set bail/bond amounts, and other decision-makings in the criminal justice system (Angwin et al, 2016). The algorithm's key feature is to produce "risk ratings" for defendants based on their criminal history and their response to a questionnaire of more than 100 questions (Angwin et al, 2016). The ethical consideration is that the algorithm seems to be racial and gender sensitive. It was found that it is "particularly likely to falsely flag black defendants as future criminals, wrongly labeling them this way at almost twice the rate as white defendants" (Angwin et al, 2016), and "women were rated two classes worse then men". (Drosser et al, 2020).
 

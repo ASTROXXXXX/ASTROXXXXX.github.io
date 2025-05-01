@@ -2,4 +2,14 @@
 title: "Stanford Open Policing Project"
 format: html
 ---
-sadfsd
+
+```{r}
+con_traffic <- DBI::dbConnect(
+  RMariaDB::MariaDB(),
+  dbname = "traffic",
+  host = Sys.getenv("TRAFFIC_HOST"),
+  user = Sys.getenv("TRAFFIC_USER"),
+  password = Sys.getenv("TRAFFIC_PWD")
+)
+```
+
