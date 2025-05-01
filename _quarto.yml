@@ -20,6 +20,8 @@ website:
           href: Simulation Analysis.qmd
         - text: Ethics in Data Science 
           href: Ethics.qmd
+        - text: SQL
+          href: SQL.qmd
 
 format:
   html:
