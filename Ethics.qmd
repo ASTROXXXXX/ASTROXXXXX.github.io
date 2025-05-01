@@ -3,34 +3,32 @@ title: "Ethics in Data Science"
 format: html
 ---
 
-Scenario.          
-The COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) algorithm is developed by a for-profit company called Northpointe. It is used in courtrooms across the US to help inform sentencing decisions, set bail/bond amounts, and other decision-makings in the criminal justice system (Angwin et al, 2016). The algorithm's key feature is to produce "risk ratings" for defendants based on their criminal history and their response to a questionnaire of more than 100 questions (Angwin et al, 2016). The ethical consideration is that the algorithm seems to be racial and gender sensitive. It was found that it is "particularly likely to falsely flag black defendants as future criminals, wrongly labeling them this way at almost twice the rate as white defendants" (Angwin et al, 2016), and "women were rated two classes worse then men". (Drosser et al, 2020).   
-              
+Scenario.\
+The COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) algorithm is developed by a for-profit company called Northpointe. It is used in courtrooms across the US to help inform sentencing decisions, set bail/bond amounts, and other decision-makings in the criminal justice system (Angwin et al, 2016). The algorithm's key feature is to produce "risk ratings" for defendants based on their criminal history and their response to a questionnaire of more than 100 questions (Angwin et al, 2016). The ethical consideration is that the algorithm seems to be racial and gender sensitive. It was found that it is "particularly likely to falsely flag black defendants as future criminals, wrongly labeling them this way at almost twice the rate as white defendants" (Angwin et al, 2016), and "women were rated two classes worse then men". (Drosser et al, 2020).
+
 It is easy to conclude that the algorithm is biased/or even racist/sexist against defendants, but it may be a bit deeper than that. For one thing, the algorithm seems "accurate" in predicting recidivism rates across race. In other words, there is a similar proportion of white defendants who will re-offend a crime compared to black defendants of the same risk rating (Corbett-Davies et al, 2018), and that seems to be what the risk ratings were initially designed to embody. It has been proposed that, maybe it is impossible for an algorithm to achieve both: 1. well calibrated between groups, where the risk ratings mean the same thing between groups. 2. not falsely flag certain groups more frequently than others (this is called false positives). Maybe it is achievable in a perfect society when everybody in every group receive the same amount of resources, education, etc. But in this world, where inequality and discrimination is not uncommon, especially from the past, racial groups unfortunately may be correlated with the likelihood to commit (or recommit) a crime (this is known as base rate differences). This correlation may be the reason why it may be impossible to do the two things aforementioned (This argument is mainly derived from Corbett-Davies et al, 2018).
-          
-Questions.       
-What was the data collection process? Were the observations collected ethically? Are there missing observations?       
-         
+
+Questions.\
+What was the data collection process? Were the observations collected ethically? Are there missing observations?
+
 An issue with the data collection process could be that data is acquired without the subject's consent or even without their knowledge. The application of this to the example above could be a bit tricky, because the subjects are suspects of certain crimes. In the algorithm, data are drawn from the defendant's criminal records (probably automatically) and the defendant's are given some questions to answer. The fact that a private company can have access to someone's criminal records may or may not be an issue, but some questions do seem a bit problematic. For example a question would ask if the defendant agree or disagree with statements like "A hungry person has a right to steal" and "If people make me angry or lose my temper, I can be dangerous" (Angwin et al, 2016).
 
-Is the data being used in unintended ways to the original study?      
-            
-Yes, the algorithm is invented by Tim Brennan, former professor of statistics at the University of Colorado. He later sold the algorithm to a for-profit company that currently runs the algorithm. Brennan claimed that his original focus was for the algorithm to "reduce crime rather than punish", and he "does not like the idea that COMPAS being the sole evidence that a decision would be based upon" (Angwin et al, 2016). But whether he likes it or not, as the algorithm got adopted by many courts and entities in the criminal justice system across the country, and its use has definitely departed from what is original intended. 
-                     
+Is the data being used in unintended ways to the original study?
+
+Yes, the algorithm is invented by Tim Brennan, former professor of statistics at the University of Colorado. He later sold the algorithm to a for-profit company that currently runs the algorithm. Brennan claimed that his original focus was for the algorithm to "reduce crime rather than punish", and he "does not like the idea that COMPAS being the sole evidence that a decision would be based upon" (Angwin et al, 2016). But whether he likes it or not, as the algorithm got adopted by many courts and entities in the criminal justice system across the country, and its use has definitely departed from what is original intended.
+
 Should race be used as a variable? Is it a proxy for something else? What about gender?
-             
+
 I think whether race is explicitly used as a variable or not, many algorithms, COMPAS included, still effectively "uses" race via other proxy attributes of it (same goes for gender). An interesting thing is that, according to Northpointe, race, gender or any other socially protected categories are actually not explicitly asked in their questions or entered in the algorithm (Angwin et al, 2016). But there is many reason to believe that the algorithm, alternatively, uses other "proxies" for race and gender. For one, the algorithm clearly seems to be predicting female defendants to be "riskier" than male defendants, by 2 risk ratings, according to a study (Drosser et al, 2020).
-                
-Did it create reproducible and extensible work?     
-             
+
+Did it create reproducible and extensible work?
+
 It didn't. The questions and calculations are mostly not disclosed to the public because of propriety, which made it almost impossible to reproduce the calculations and obtain the same risk ratings (Angwin et al, 2016). More importantly, defendants "rarely have the opportunity to challenge their assessments" because the calculations and how the ratings are calculated is not revealed. This may be unfair to the defendants, and could potentially be detrimental if the risk rating got it wrong.
-                  
-                   
-Citations.    
 
-1. Angwin, J., Larson, J., Mattu, S., & Kirchner, L. (2016, May 23). Machine bias. ProPublica. https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing.   
+Citations.
 
-2. Corbett-Davies, S., & Goel, S. (2018, October 17). A computer program used for bail and sentencing decisions was labeled biased against blacks. It's actually not that clear. The Washington Post. https://www.washingtonpost.com/news/monkey-cage/wp/2018/10/17/a-computer-program-used-for-bail-and-sentencing-decisions-was-labeled-biased-against-blacks-its-actually-not-that-clear/.    
+1.  Angwin, J., Larson, J., Mattu, S., & Kirchner, L. (2016, May 23). Machine bias. ProPublica. https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing.
 
-3. Drosser, C. (2020, August 5). In order not to discriminate, we might have to discriminate. The New York Times. https://www.nytimes.com/2020/08/05/magazine/algorithm-discrimination.html.    
+2.  Corbett-Davies, S., & Goel, S. (2018, October 17). A computer program used for bail and sentencing decisions was labeled biased against blacks. It's actually not that clear. The Washington Post. https://www.washingtonpost.com/news/monkey-cage/wp/2018/10/17/a-computer-program-used-for-bail-and-sentencing-decisions-was-labeled-biased-against-blacks-its-actually-not-that-clear/.
 
+3.  Drosser, C. (2020, August 5). In order not to discriminate, we might have to discriminate. The New York Times. https://www.nytimes.com/2020/08/05/magazine/algorithm-discrimination.html.
