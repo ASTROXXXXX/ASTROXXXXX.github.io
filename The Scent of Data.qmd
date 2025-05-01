@@ -7,7 +7,6 @@ format: html
 
 This dataset contains information about perfumes webscraped from Parfumo (community of perfume enthusiasts) by [Olga G.](https://www.kaggle.com/olgagmiufana1).
 
-
 ```{r}
 #| message: false
 #| warning: false
@@ -29,11 +28,6 @@ ggplot( top10_brand_vs_rating, aes( x = Brand, y = Average_Rating_Value, fill = 
 
 ```
 
-
-Data taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data      
-Data originally sourced from Perfumo:     
+Data taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data\
+Data originally sourced from Perfumo:\
 https://www.parfumo.com/
-
-
-
-
