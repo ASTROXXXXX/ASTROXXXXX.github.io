@@ -8,6 +8,7 @@ format: html
 This dataset contains the entire script of the famous Shakesqeare play: Macbeth. As a side note, I was actually really into acting back in middle school, and I actually played a character (who's name I forgot - not a big character) in Macbeth during one of the school shows. I'm excited, let's go ahead and play with the data :)
 
 ```{r}
+# Import Data
 #| message: false
 #| warning: false
 
@@ -16,12 +17,14 @@ library(tidyverse)
 
 macbeth <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/macbeth.csv')
 
+# Total Number of Negative Lines in each act
 neg_lines <- macbeth |>
   mutate( blood = str_detect( dialogue, "(?i)blood|(?i)murder[er]|(?i)death|(?i)kill" ) ) |>
   filter( blood ) |>
   group_by( act ) |>
   summarize( average_negative_lines = n() ) 
 
+# Average Character per Line in each act
 average_words <- macbeth |>
   mutate( string_length = str_length( dialogue ) ) |>
   group_by( act ) |>

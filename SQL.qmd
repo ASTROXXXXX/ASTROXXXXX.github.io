@@ -16,12 +16,13 @@ con_traffic <- DBI::dbConnect(
 )
 ```
 
-In this task, I'll be using SQL, a query system for large datasets, to answer some questions about a huge dataset - Stanford Open Policing Project - which collected data on traffic stops across multiple states of the US over many years. I would like to answer these questions:    
-  1. does the total amount of traffic stops differ based on race.      
-  2. does the total amount of traffic stops differ over time.    
-  3. what are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).    
+In this task, I'll be using SQL, a query system for large datasets, to answer some questions about a huge dataset - Stanford Open Policing Project - which collected data on traffic stops across multiple states of the US over many years. I would like to answer these questions:\
+1. does the total amount of traffic stops differ based on race.\
+2. does the total amount of traffic stops differ over time.\
+3. what are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).
 
-  1. does the total amount of traffic stops differ based on race.  
+1.  does the total amount of traffic stops differ based on race.\
+
 ```{sql connection=con_traffic}
 SELECT 
   subject_race, 
@@ -33,9 +34,11 @@ WHERE type = 'vehicular'
 GROUP BY subject_race
 ORDER BY n_stops DESC;
 ```
+
 To narrow down the focus and avoiding to deal with too much data, I decided to look at the total amount of vehicular traffic stops in New Orleans in 2018 separated by black or white subjects. Here I found that the amount of incidents where a black subjects is stopped on the road is almost four times the amount that of white subjects. Even though, according to online sources, African Americans makes up approximately 60% of the population in New Orleans in 2018, whereas Whites only 30%, it is still quite disproportional that Black subjects are stopped four times as much as white subjects.
 
-  2. does the total amount of traffic stops differ over time.  
+2.  does the total amount of traffic stops differ over time.\
+
 ```{sql connection=con_traffic}
 SELECT 
   SUBSTR(date, 1, 4) AS year,
@@ -46,10 +49,11 @@ WHERE type = 'vehicular'
 GROUP BY year
 ORDER BY year;
 ```
+
 Continuing from the previous query, I decided to look at the amount of vehicular stops in New Orleans every year since 2010 to 2018. The first 6 years show a fairly consistent increase in number of stops, which I suspect that it has to do with increased ownership of cars and population growth.
 
+3.  what are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).\
 
-3. what are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).    
 ```{sql connection=con_traffic}
 SELECT 
   type,
@@ -60,14 +64,14 @@ WHERE type IN ('pedestrian', 'vehicular')
 GROUP BY type, reason_for_stop
 ORDER BY type, n_stops DESC;
 ```
+
 Lastly, I looked at some common reasons behind the traffic stops in New Orleans over the total amount of time this data was collected. Interestingly, pedestrian stops are unanimously due to "suspect person" and nothing related to traffic while vehicular stops are almost certainly related to traffic misdemeanors.
 
 ```{r}
 dbDisconnect(con_traffic, shutdown = TRUE)
 ```
 
-In conclusion, I found that in New Orleans 2018, there was almost four times the amount of vehicular traffic stops that involved a black subject than white subject, these stops seem to be consistently increasing through 2010 to 2015, and pedestrian stops seem to be due to non-traffic reasons while vehicular stops are almost always related to traffic reasons for the amount of time this study has been carried out.    
+In conclusion, I found that in New Orleans 2018, there was almost four times the amount of vehicular traffic stops that involved a black subject than white subject, these stops seem to be consistently increasing through 2010 to 2015, and pedestrian stops seem to be due to non-traffic reasons while vehicular stops are almost always related to traffic reasons for the amount of time this study has been carried out.
 
-
-Reference.   
+Reference.\
 Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.

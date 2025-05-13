@@ -1,0 +1,138 @@
+---
+title: "DS002 Final Prez"
+author: "Jason Xu"
+subtitle: "May 13, 2025"
+format:
+  revealjs:
+    scrollable: true
+    slide-number: true
+    show-slide-number: all
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Welcome...to the world of Macbeth
+
+![](Macbeth){fig-align="center"}
+
+Me in 6th grade:\
+![](Jason%20Macbeth){fig-align="center"}
+
+## The Data
+
+"macbeth" from TidyTuesday!
+
+```{r}
+#| message: false
+#| warning: false
+
+library(dplyr)
+library(tidyverse)
+
+macbeth <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/macbeth.csv')
+
+head(macbeth)
+```
+
+## Negative Words
+
+Which lines (or dialogue) contain negative words?\
+I'll call it Negative Lines
+
+```{r}
+neg_lines <- macbeth |>
+  mutate( blood = str_detect( dialogue, "(?i)blood|(?i)murder|(?i)death|(?i)kill" ) ) |>
+  select( dialogue, blood)
+
+head(neg_lines)
+```
+
+## Negative Lines Per Act
+
+Total number of negative lines per act
+
+```{r}
+neg_lines <- macbeth |>
+  mutate( blood = str_detect( dialogue, "(?i)blood|(?i)murder|(?i)death|(?i)kill" ) ) |>
+  filter( blood ) |>
+  group_by( act ) |>
+  summarize( negative_lines_per_act = n() ) 
+
+neg_lines
+```
+
+## String Length
+
+String length counts the number of letters/characters/spaces in a string.
+
+It is one way to quantify the length of each sentence of the dialogue.
+
+```{r}
+string_length = str_length( macbeth$dialogue )
+
+head(string_length)                        
+```
+
+## Average String Length per Act
+
+```{r}
+average_character <- macbeth |>
+  mutate( string_length = str_length( dialogue ) ) |>
+  group_by( act ) |>
+  summarize( average_character = mean( string_length ) ) 
+
+average_character
+```
+
+## Is there a relationship?
+
+Hypothesis: Characters in acts that contain more negative lines also tend to speak longer sentences (i.e longer string length).
+
+```{r}
+negative_words <- left_join( neg_lines, average_character )
+
+head(negative_words)
+```
+
+## Is there a relationship?
+
+-   <div>
+
+    ![](NegWord Plot)
+
+    </div>
+
+-   Openning and closing (I and V) acts have the longest dialogues, but low negative lines
+
+-   If any relationship: total negative lines per act seems to be negatively associated to average dialogue length per act -\> but comfounding variable: some acts may be longer than others
+
+-   Act II has the most negative lines, but the shortest dialogues in average
+
+## Limitations
+
+-   "Negative" words are subjective! and only a very limited set of negative words were looked at here.\
+-   Length of Acts were not captured: some acts may be much longer -\> leading to more negative words.
+
+## What about "love"???
+
+Does Macbeth ever verbally expressed "love" in the play??? and to whom?
+
+```{r}
+macbeth |>
+  filter( character == "Macbeth" ) |>
+  mutate( love_strings = str_extract( dialogue, "(?<=(?i)love ).+") ) |>
+  filter( !is.na(love_strings) ) |>
+  select( character:love_strings, -line_number )
+```
+
+Seems like it only occurred 4 times in the whole play and they seem to occur only in generic settings ("love and honour", "love and health to all", seems like words said when toasting) --- poor lady Macbeth :(
+
+## References
+
+Picture taken from: [https://medium.com/literary-analyses/lady-macbeth-30e549b7c211 Data taken from TidyTuesday](https://medium.com/literary-analyses/lady-macbeth-30e549b7c211%20Data%20taken%20from%20TidyTuesday)
+
+GitHub Repository: <https://github.com/rfordatascience/tidytuesday/tree/main/data>\
+Data originally sourced from: <https://shakespeare.mit.edu/>

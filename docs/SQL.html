@@ -129,10 +129,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-viz" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Data Viz</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-viz">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
         <li>
     <a class="dropdown-item" href="./The Scent of Data.html">
  <span class="dropdown-text">Scent &amp; Frangrance</span></a>
@@ -159,6 +159,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./DS002 Final Prez.html"> 
+<span class="menu-text">DS002 Presentation</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -211,7 +215,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 2. does the total amount of traffic stops differ over time.<br>
 3. what are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).</p>
 <ol type="1">
-<li>does the total amount of traffic stops differ based on race.</li>
+<li>does the total amount of traffic stops differ based on race.<br>
+</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
@@ -247,7 +252,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>To narrow down the focus and avoiding to deal with too much data, I decided to look at the total amount of vehicular traffic stops in New Orleans in 2018 separated by black or white subjects. Here I found that the amount of incidents where a black subjects is stopped on the road is almost four times the amount that of white subjects. Even though, according to online sources, African Americans makes up approximately 60% of the population in New Orleans in 2018, whereas Whites only 30%, it is still quite disproportional that Black subjects are stopped four times as much as white subjects.</p>
 <ol start="2" type="1">
-<li>does the total amount of traffic stops differ over time.</li>
+<li>does the total amount of traffic stops differ over time.<br>
+</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
@@ -310,7 +316,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Continuing from the previous query, I decided to look at the amount of vehicular stops in New Orleans every year since 2010 to 2018. The first 6 years show a fairly consistent increase in number of stops, which I suspect that it has to do with increased ownership of cars and population growth.</p>
 <ol start="3" type="1">
-<li>what are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).</li>
+<li>what are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).<br>
+</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>

@@ -25,7 +25,7 @@
     "href": "Strings.html",
     "title": "Macbeth",
     "section": "",
-    "text": "This dataset contains the entire script of the famous Shakesqeare play: Macbeth. As a side note, I was actually really into acting back in middle school, and I actually played a character (who’s name I forgot - not a big character) in Macbeth during one of the school shows. I’m excited, let’s go ahead and play with the data :)\n\nlibrary(dplyr)\nlibrary(tidyverse)\n\nmacbeth &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/macbeth.csv')\n\nneg_lines &lt;- macbeth |&gt;\n  mutate( blood = str_detect( dialogue, \"(?i)blood|(?i)murder[er]|(?i)death|(?i)kill\" ) ) |&gt;\n  filter( blood ) |&gt;\n  group_by( act ) |&gt;\n  summarize( average_negative_lines = n() ) \n\naverage_words &lt;- macbeth |&gt;\n  mutate( string_length = str_length( dialogue ) ) |&gt;\n  group_by( act ) |&gt;\n  summarize( average_words = mean( string_length ) ) \n\nnegative_words &lt;- left_join( neg_lines, average_words )\n\nggplot( negative_words, aes(x = average_words, y = average_negative_lines, label = act)) +\n  geom_point(color = \"blue\", size = 3) +  \n  geom_text(vjust = -1, size = 4) +       \n  labs(title = \"Average Words vs. Negative Lines in each act of Macbeth\",\n       x = \"Average Words per Act\",\n       y = \"Number of Lines with Negative Words\" ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\nHere, I counted the number of lines in each act of Macbeth that contained one or more “negative words”, which I defined to be “blood”, “murder(er)”, “death” and “kill”. Then, it is paired up with the average number of words in each act (see figure above). I was interested in knowing if a particular act had more lines containing “negative words” than perhaps the characters spoke more on average (or less, there is some relationship is the point). However, just by eyeballing the above plot, it seems like there is no clear relationship between the two. (noticeably, however, Act III is a pretty extreme outlier, if we ignore it the plot actually shows a pretty down-wards trending relationship).\n\nmacbeth |&gt;\n  filter( character == \"Macbeth\" ) |&gt;\n  mutate( love_strings = str_extract( dialogue, \"(?&lt;=(?i)love ).+\") ) |&gt;\n  filter( !is.na(love_strings) ) |&gt;\n  select( character:love_strings, -line_number )\n\n# A tibble: 4 × 3\n  character dialogue                                             love_strings   \n  &lt;chr&gt;     &lt;chr&gt;                                                &lt;chr&gt;          \n1 Macbeth   Safe toward your love and honour.                    and honour.    \n2 Macbeth   Courage to make 's love kno wn?                      kno wn?        \n3 Macbeth   Grapples you to the heart and love of us,            of us,         \n4 Macbeth   To those that know me. Come, love and health to all; and health to …\n\n\nAfter looking at the negative, I decided to turn to the opposite — whether if Macbeth, the main character of the play, has explicity expressed “love” in the play, and to whom. So I used the lookaround function to spot instances of Macbeth saying the word “love” and the “love_strings” is whatever comes after “love”. Sadly, these instances only occured 4 times in the whole play and they seem to occur only in more generic settings (like toasting) — poor lady Macbeth :(\nData taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data\nData originally sourced from:\nhttps://shakespeare.mit.edu/"
+    "text": "This dataset contains the entire script of the famous Shakesqeare play: Macbeth. As a side note, I was actually really into acting back in middle school, and I actually played a character (who’s name I forgot - not a big character) in Macbeth during one of the school shows. I’m excited, let’s go ahead and play with the data :)\n\n# Import Data\n#| message: false\n#| warning: false\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ forcats   1.0.0     ✔ readr     2.1.5\n✔ ggplot2   3.5.1     ✔ stringr   1.5.1\n✔ lubridate 1.9.4     ✔ tibble    3.2.1\n✔ purrr     1.0.2     ✔ tidyr     1.3.1\n\n\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nmacbeth &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/macbeth.csv')\n\nRows: 2553 Columns: 5\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): act, scene, character, dialogue\ndbl (1): line_number\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n# Total Number of Negative Lines in each act\nneg_lines &lt;- macbeth |&gt;\n  mutate( blood = str_detect( dialogue, \"(?i)blood|(?i)murder[er]|(?i)death|(?i)kill\" ) ) |&gt;\n  filter( blood ) |&gt;\n  group_by( act ) |&gt;\n  summarize( average_negative_lines = n() ) \n\n# Average Character per Line in each act\naverage_words &lt;- macbeth |&gt;\n  mutate( string_length = str_length( dialogue ) ) |&gt;\n  group_by( act ) |&gt;\n  summarize( average_words = mean( string_length ) ) \n\nnegative_words &lt;- left_join( neg_lines, average_words )\n\nJoining with `by = join_by(act)`\n\nggplot( negative_words, aes(x = average_words, y = average_negative_lines, label = act)) +\n  geom_point(color = \"blue\", size = 3) +  \n  geom_text(vjust = -1, size = 4) +       \n  labs(title = \"Average Words vs. Negative Lines in each act of Macbeth\",\n       x = \"Average Words per Act\",\n       y = \"Number of Lines with Negative Words\" ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\nHere, I counted the number of lines in each act of Macbeth that contained one or more “negative words”, which I defined to be “blood”, “murder(er)”, “death” and “kill”. Then, it is paired up with the average number of words in each act (see figure above). I was interested in knowing if a particular act had more lines containing “negative words” than perhaps the characters spoke more on average (or less, there is some relationship is the point). However, just by eyeballing the above plot, it seems like there is no clear relationship between the two. (noticeably, however, Act III is a pretty extreme outlier, if we ignore it the plot actually shows a pretty down-wards trending relationship).\n\nmacbeth |&gt;\n  filter( character == \"Macbeth\" ) |&gt;\n  mutate( love_strings = str_extract( dialogue, \"(?&lt;=(?i)love ).+\") ) |&gt;\n  filter( !is.na(love_strings) ) |&gt;\n  select( character:love_strings, -line_number )\n\n# A tibble: 4 × 3\n  character dialogue                                             love_strings   \n  &lt;chr&gt;     &lt;chr&gt;                                                &lt;chr&gt;          \n1 Macbeth   Safe toward your love and honour.                    and honour.    \n2 Macbeth   Courage to make 's love kno wn?                      kno wn?        \n3 Macbeth   Grapples you to the heart and love of us,            of us,         \n4 Macbeth   To those that know me. Come, love and health to all; and health to …\n\n\nAfter looking at the negative, I decided to turn to the opposite — whether if Macbeth, the main character of the play, has explicity expressed “love” in the play, and to whom. So I used the lookaround function to spot instances of Macbeth saying the word “love” and the “love_strings” is whatever comes after “love”. Sadly, these instances only occured 4 times in the whole play and they seem to occur only in more generic settings (like toasting) — poor lady Macbeth :(\nData taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data\nData originally sourced from:\nhttps://shakespeare.mit.edu/"
   },
   {
     "objectID": "Simulation Analysis.html",
@@ -46,6 +46,251 @@
     "href": "SQL.html",
     "title": "Stanford Open Policing Project",
     "section": "",
-    "text": "library(DBI)\ncon_traffic &lt;- DBI::dbConnect(\n  RMariaDB::MariaDB(),\n  dbname = \"traffic\",\n  host = Sys.getenv(\"TRAFFIC_HOST\"),\n  user = Sys.getenv(\"TRAFFIC_USER\"),\n  password = Sys.getenv(\"TRAFFIC_PWD\")\n)\n\nIn this task, I’ll be using SQL, a query system for large datasets, to answer some questions about a huge dataset - Stanford Open Policing Project - which collected data on traffic stops across multiple states of the US over many years. I would like to answer these questions:\n1. does the total amount of traffic stops differ based on race.\n2. does the total amount of traffic stops differ over time.\n3. what are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).\n\ndoes the total amount of traffic stops differ based on race.\n\n\nSELECT \n  subject_race, \n  COUNT(*) AS n_stops\nFROM la_new_orleans_2020_04_01\nWHERE type = 'vehicular'\n  AND subject_race IN ('White', 'Black')\n  AND STR_TO_DATE(CONCAT(SUBSTR(date, 1, 4), '-01-01'), '%Y-%m-%d') = '2018-01-01'\nGROUP BY subject_race\nORDER BY n_stops DESC;\n\n\n2 records\n\n\nsubject_race\nn_stops\n\n\n\n\nblack\n16087\n\n\nwhite\n4389\n\n\n\n\n\nTo narrow down the focus and avoiding to deal with too much data, I decided to look at the total amount of vehicular traffic stops in New Orleans in 2018 separated by black or white subjects. Here I found that the amount of incidents where a black subjects is stopped on the road is almost four times the amount that of white subjects. Even though, according to online sources, African Americans makes up approximately 60% of the population in New Orleans in 2018, whereas Whites only 30%, it is still quite disproportional that Black subjects are stopped four times as much as white subjects.\n\ndoes the total amount of traffic stops differ over time.\n\n\nSELECT \n  SUBSTR(date, 1, 4) AS year,\n  COUNT(*) AS n_stops\nFROM la_new_orleans_2020_04_01\nWHERE type = 'vehicular'\n  AND STR_TO_DATE(CONCAT(vehicle_year, '-01-01'), '%Y-%m-%d') BETWEEN '2010-01-01' AND '2018-12-31'\nGROUP BY year\nORDER BY year;\n\n\n9 records\n\n\nyear\nn_stops\n\n\n\n\n2010\n550\n\n\n2011\n1983\n\n\n2012\n2407\n\n\n2013\n2311\n\n\n2014\n5764\n\n\n2015\n10238\n\n\n2016\n8931\n\n\n2017\n13515\n\n\n2018\n9184\n\n\n\n\n\nContinuing from the previous query, I decided to look at the amount of vehicular stops in New Orleans every year since 2010 to 2018. The first 6 years show a fairly consistent increase in number of stops, which I suspect that it has to do with increased ownership of cars and population growth.\n\nwhat are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).\n\n\nSELECT \n  type,\n  reason_for_stop,\n  COUNT(*) AS n_stops\nFROM la_new_orleans_2020_04_01\nWHERE type IN ('pedestrian', 'vehicular')\nGROUP BY type, reason_for_stop\nORDER BY type, n_stops DESC;\n\n\n9 records\n\n\n\n\n\n\n\ntype\nreason_for_stop\nn_stops\n\n\n\n\npedestrian\nSUSPECT PERSON\n63829\n\n\nvehicular\nTRAFFIC VIOLATION\n292318\n\n\nvehicular\nSUSPECT VEHICLE\n6030\n\n\nvehicular\nTRAFFIC VIOLATION|CALL FOR SERVICE\n2\n\n\nvehicular\nCALL FOR SERVICE|TRAFFIC VIOLATION\n2\n\n\nvehicular\nTRAFFIC VIOLATION|OTHER\n1\n\n\nvehicular\nSUSPECT VEHICLE|SUSPECT PERSON|SUSPECT PERSON\n1\n\n\nvehicular\nCRIMINAL VIOLATION|TRAFFIC VIOLATION\n1\n\n\nvehicular\nTRAFFIC VIOLATION|OTHER|OTHER\n1\n\n\n\n\n\nLastly, I looked at some common reasons behind the traffic stops in New Orleans over the total amount of time this data was collected. Interestingly, pedestrian stops are unanimously due to “suspect person” and nothing related to traffic while vehicular stops are almost certainly related to traffic misdemeanors.\n\ndbDisconnect(con_traffic, shutdown = TRUE)\n\nIn conclusion, I found that in New Orleans 2018, there was almost four times the amount of vehicular traffic stops that involved a black subject than white subject, these stops seem to be consistently increasing through 2010 to 2015, and pedestrian stops seem to be due to non-traffic reasons while vehicular stops are almost always related to traffic reasons for the amount of time this study has been carried out.\nReference.\nPierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10."
+    "text": "library(DBI)\ncon_traffic &lt;- DBI::dbConnect(\n  RMariaDB::MariaDB(),\n  dbname = \"traffic\",\n  host = Sys.getenv(\"TRAFFIC_HOST\"),\n  user = Sys.getenv(\"TRAFFIC_USER\"),\n  password = Sys.getenv(\"TRAFFIC_PWD\")\n)\n\nIn this task, I’ll be using SQL, a query system for large datasets, to answer some questions about a huge dataset - Stanford Open Policing Project - which collected data on traffic stops across multiple states of the US over many years. I would like to answer these questions:\n1. does the total amount of traffic stops differ based on race.\n2. does the total amount of traffic stops differ over time.\n3. what are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).\n\ndoes the total amount of traffic stops differ based on race.\n\n\n\nSELECT \n  subject_race, \n  COUNT(*) AS n_stops\nFROM la_new_orleans_2020_04_01\nWHERE type = 'vehicular'\n  AND subject_race IN ('White', 'Black')\n  AND STR_TO_DATE(CONCAT(SUBSTR(date, 1, 4), '-01-01'), '%Y-%m-%d') = '2018-01-01'\nGROUP BY subject_race\nORDER BY n_stops DESC;\n\n\n2 records\n\n\nsubject_race\nn_stops\n\n\n\n\nblack\n16087\n\n\nwhite\n4389\n\n\n\n\n\nTo narrow down the focus and avoiding to deal with too much data, I decided to look at the total amount of vehicular traffic stops in New Orleans in 2018 separated by black or white subjects. Here I found that the amount of incidents where a black subjects is stopped on the road is almost four times the amount that of white subjects. Even though, according to online sources, African Americans makes up approximately 60% of the population in New Orleans in 2018, whereas Whites only 30%, it is still quite disproportional that Black subjects are stopped four times as much as white subjects.\n\ndoes the total amount of traffic stops differ over time.\n\n\n\nSELECT \n  SUBSTR(date, 1, 4) AS year,\n  COUNT(*) AS n_stops\nFROM la_new_orleans_2020_04_01\nWHERE type = 'vehicular'\n  AND STR_TO_DATE(CONCAT(vehicle_year, '-01-01'), '%Y-%m-%d') BETWEEN '2010-01-01' AND '2018-12-31'\nGROUP BY year\nORDER BY year;\n\n\n9 records\n\n\nyear\nn_stops\n\n\n\n\n2010\n550\n\n\n2011\n1983\n\n\n2012\n2407\n\n\n2013\n2311\n\n\n2014\n5764\n\n\n2015\n10238\n\n\n2016\n8931\n\n\n2017\n13515\n\n\n2018\n9184\n\n\n\n\n\nContinuing from the previous query, I decided to look at the amount of vehicular stops in New Orleans every year since 2010 to 2018. The first 6 years show a fairly consistent increase in number of stops, which I suspect that it has to do with increased ownership of cars and population growth.\n\nwhat are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).\n\n\n\nSELECT \n  type,\n  reason_for_stop,\n  COUNT(*) AS n_stops\nFROM la_new_orleans_2020_04_01\nWHERE type IN ('pedestrian', 'vehicular')\nGROUP BY type, reason_for_stop\nORDER BY type, n_stops DESC;\n\n\n9 records\n\n\n\n\n\n\n\ntype\nreason_for_stop\nn_stops\n\n\n\n\npedestrian\nSUSPECT PERSON\n63829\n\n\nvehicular\nTRAFFIC VIOLATION\n292318\n\n\nvehicular\nSUSPECT VEHICLE\n6030\n\n\nvehicular\nTRAFFIC VIOLATION|CALL FOR SERVICE\n2\n\n\nvehicular\nCALL FOR SERVICE|TRAFFIC VIOLATION\n2\n\n\nvehicular\nTRAFFIC VIOLATION|OTHER\n1\n\n\nvehicular\nSUSPECT VEHICLE|SUSPECT PERSON|SUSPECT PERSON\n1\n\n\nvehicular\nCRIMINAL VIOLATION|TRAFFIC VIOLATION\n1\n\n\nvehicular\nTRAFFIC VIOLATION|OTHER|OTHER\n1\n\n\n\n\n\nLastly, I looked at some common reasons behind the traffic stops in New Orleans over the total amount of time this data was collected. Interestingly, pedestrian stops are unanimously due to “suspect person” and nothing related to traffic while vehicular stops are almost certainly related to traffic misdemeanors.\n\ndbDisconnect(con_traffic, shutdown = TRUE)\n\nIn conclusion, I found that in New Orleans 2018, there was almost four times the amount of vehicular traffic stops that involved a black subject than white subject, these stops seem to be consistently increasing through 2010 to 2015, and pedestrian stops seem to be due to non-traffic reasons while vehicular stops are almost always related to traffic reasons for the amount of time this study has been carried out.\nReference.\nPierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10."
+  },
+  {
+    "objectID": "DS002 Final Prez.html#section",
+    "href": "DS002 Final Prez.html#section",
+    "title": "DS002 Final Prez",
+    "section": "1",
+    "text": "1\nJason"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#section-1",
+    "href": "DS002 Final Prez.html#section-1",
+    "title": "DS002 Final Prez",
+    "section": "2",
+    "text": "2\nJohn"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#section-2",
+    "href": "DS002 Final Prez.html#section-2",
+    "title": "DS002 Final Prez",
+    "section": "2",
+    "text": "2\nJohn"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#intro",
+    "href": "DS002 Final Prez.html#intro",
+    "title": "DS002 Final Prez",
+    "section": "Intro",
+    "text": "Intro"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#about-the-data",
+    "href": "DS002 Final Prez.html#about-the-data",
+    "title": "DS002 Final Prez",
+    "section": "About the Data",
+    "text": "About the Data"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#import-data",
+    "href": "DS002 Final Prez.html#import-data",
+    "title": "DS002 Final Prez",
+    "section": "Import Data",
+    "text": "Import Data\n\nlibrary(dplyr)\nlibrary(tidyverse)\n\nmacbeth &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/macbeth.csv')\n\nhead(macbeth)\n\n# A tibble: 6 × 5\n  act   scene   character         dialogue                           line_number\n  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;             &lt;chr&gt;                                    &lt;dbl&gt;\n1 Act I Scene I [stage direction] Thunder and lightning. Enter thre…          NA\n2 Act I Scene I First Witch       When shall we three meet again               1\n3 Act I Scene I First Witch       In thunder, lightning, or in rain?           2\n4 Act I Scene I Second Witch      When the hurlyburly's done,                  3\n5 Act I Scene I Second Witch      When the battle's lost and won.              4\n6 Act I Scene I Third Witch       That will be ere the set of sun.             5"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#import-data-1",
+    "href": "DS002 Final Prez.html#import-data-1",
+    "title": "DS002 Final Prez",
+    "section": "Import Data",
+    "text": "Import Data\n\nneg_lines &lt;- macbeth |&gt;\n  mutate( blood = str_detect( dialogue, \"(?i)blood|(?i)murder[er]|(?i)death|(?i)kill\" ) ) |&gt;\n  filter( blood ) |&gt;\n  group_by( act ) |&gt;\n  summarize( average_negative_lines = n() )"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#intro-1",
+    "href": "DS002 Final Prez.html#intro-1",
+    "title": "DS002 Final Prez",
+    "section": "Intro",
+    "text": "Intro\n\nlibrary(dplyr)\nlibrary(tidyverse)\n\nmacbeth &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/macbeth.csv')"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#negative-words",
+    "href": "DS002 Final Prez.html#negative-words",
+    "title": "DS002 Final Prez",
+    "section": "Negative Words",
+    "text": "Negative Words\nWhich lines (or dialogue) contain negative words?\nI’ll call it Negative Lines\n\nneg_lines &lt;- macbeth |&gt;\n  mutate( blood = str_detect( dialogue, \"(?i)blood|(?i)murder|(?i)death|(?i)kill\" ) ) |&gt;\n  select( dialogue, blood)\n\nhead(neg_lines)\n\n# A tibble: 6 × 2\n  dialogue                                   blood\n  &lt;chr&gt;                                      &lt;lgl&gt;\n1 Thunder and lightning. Enter three Witches FALSE\n2 When shall we three meet again             FALSE\n3 In thunder, lightning, or in rain?         FALSE\n4 When the hurlyburly's done,                FALSE\n5 When the battle's lost and won.            FALSE\n6 That will be ere the set of sun.           FALSE"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#total-number-of",
+    "href": "DS002 Final Prez.html#total-number-of",
+    "title": "DS002 Final Prez",
+    "section": "Total Number of",
+    "text": "Total Number of"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#total-number-of-lines",
+    "href": "DS002 Final Prez.html#total-number-of-lines",
+    "title": "DS002 Final Prez",
+    "section": "Total Number of Lines",
+    "text": "Total Number of Lines"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#total-number-of-lines-that-contain-negative-words",
+    "href": "DS002 Final Prez.html#total-number-of-lines-that-contain-negative-words",
+    "title": "DS002 Final Prez",
+    "section": "Total Number of Lines that Contain Negative Words",
+    "text": "Total Number of Lines that Contain Negative Words\n\nneg_lines &lt;- macbeth |&gt;\n  mutate( blood = str_detect( dialogue, \"(?i)blood|(?i)murder[er]|(?i)death|(?i)kill\" ) ) |&gt;\n  filter( blood ) |&gt;\n  group_by( act ) |&gt;\n  summarize( average_negative_lines = n() )"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#total-number-of-lines-containing-negative-words",
+    "href": "DS002 Final Prez.html#total-number-of-lines-containing-negative-words",
+    "title": "DS002 Final Prez",
+    "section": "Total Number of Lines Containing Negative Words",
+    "text": "Total Number of Lines Containing Negative Words\n\nneg_lines &lt;- macbeth |&gt;\n  mutate( blood = str_detect( dialogue, \"(?i)blood|(?i)murder[er]|(?i)death|(?i)kill\" ) ) |&gt;\n  filter( blood ) |&gt;\n  group_by( act ) |&gt;\n  summarize( average_negative_lines = n() )"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#total-number-of-lines-containing-negative-words-per-act",
+    "href": "DS002 Final Prez.html#total-number-of-lines-containing-negative-words-per-act",
+    "title": "DS002 Final Prez",
+    "section": "Total Number of Lines Containing Negative Words Per Act",
+    "text": "Total Number of Lines Containing Negative Words Per Act\n\nneg_lines &lt;- macbeth |&gt;\n  mutate( blood = str_detect( dialogue, \"(?i)blood|(?i)murder|(?i)death|(?i)kill\" ) ) |&gt;\n  filter( blood ) |&gt;\n  group_by( act ) |&gt;\n  summarize( negative_lines_per_act = n() ) \n\nneg_lines\n\n# A tibble: 5 × 2\n  act     negative_lines_per_act\n  &lt;chr&gt;                    &lt;int&gt;\n1 Act I                       15\n2 Act II                      31\n3 Act III                     27\n4 Act IV                      14\n5 Act V                       10"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#average-character-per-line-in-each-act",
+    "href": "DS002 Final Prez.html#average-character-per-line-in-each-act",
+    "title": "DS002 Final Prez",
+    "section": "Average Character per Line in each act",
+    "text": "Average Character per Line in each act\naverage_words &lt;- macbeth |&gt; mutate( string_length = str_length( dialogue ) ) |&gt; group_by( act ) |&gt; summarize( average_words = mean( string_length ) )\nnegative_words &lt;- left_join( neg_lines, average_words )\nggplot( negative_words, aes(x = average_words, y = average_negative_lines, label = act)) + geom_point(color = “blue”, size = 3) +\ngeom_text(vjust = -1, size = 4) +\nlabs(title = “Average Words vs. Negative Lines in each act of Macbeth”, x = “Average Words per Act”, y = “Number of Lines with Negative Words” ) + theme_minimal()\nmacbeth |&gt; filter( character == “Macbeth” ) |&gt; mutate( love_strings = str_extract( dialogue, “(?&lt;=(?i)love ).+”) ) |&gt; filter( !is.na(love_strings) ) |&gt; select( character:love_strings, -line_number )\nAfter looking at the negative, I decided to turn to the opposite — whether if Macbeth, the main character of the play, has explicity expressed “love” in the play, and to whom. So I used the lookaround function to spot instances of Macbeth saying the word “love” and the “love_strings” is whatever comes after “love”. Sadly, these instances only occured 4 times in the whole play and they seem to occur only in more generic settings (like toasting) — poor lady Macbeth :("
+  },
+  {
+    "objectID": "DS002 Final Prez.html#is-there-a-relationship-between",
+    "href": "DS002 Final Prez.html#is-there-a-relationship-between",
+    "title": "DS002 Final Prez",
+    "section": "Is there a relationship between",
+    "text": "Is there a relationship between\naverage_words &lt;- macbeth |&gt; mutate( string_length = str_length( dialogue ) ) |&gt; group_by( act ) |&gt; summarize( average_words = mean( string_length ) )\nnegative_words &lt;- left_join( neg_lines, average_words )\nggplot( negative_words, aes(x = average_words, y = average_negative_lines, label = act)) + geom_point(color = “blue”, size = 3) +\ngeom_text(vjust = -1, size = 4) +\nlabs(title = “Average Words vs. Negative Lines in each act of Macbeth”, x = “Average Words per Act”, y = “Number of Lines with Negative Words” ) + theme_minimal()\nmacbeth |&gt; filter( character == “Macbeth” ) |&gt; mutate( love_strings = str_extract( dialogue, “(?&lt;=(?i)love ).+”) ) |&gt; filter( !is.na(love_strings) ) |&gt; select( character:love_strings, -line_number )\nAfter looking at the negative, I decided to turn to the opposite — whether if Macbeth, the main character of the play, has explicity expressed “love” in the play, and to whom. So I used the lookaround function to spot instances of Macbeth saying the word “love” and the “love_strings” is whatever comes after “love”. Sadly, these instances only occured 4 times in the whole play and they seem to occur only in more generic settings (like toasting) — poor lady Macbeth :("
+  },
+  {
+    "objectID": "DS002 Final Prez.html#is-there-a-relationship-between-acts-with",
+    "href": "DS002 Final Prez.html#is-there-a-relationship-between-acts-with",
+    "title": "DS002 Final Prez",
+    "section": "Is there a relationship between acts with",
+    "text": "Is there a relationship between acts with\naverage_words &lt;- macbeth |&gt; mutate( string_length = str_length( dialogue ) ) |&gt; group_by( act ) |&gt; summarize( average_words = mean( string_length ) )\nnegative_words &lt;- left_join( neg_lines, average_words )\nggplot( negative_words, aes(x = average_words, y = average_negative_lines, label = act)) + geom_point(color = “blue”, size = 3) +\ngeom_text(vjust = -1, size = 4) +\nlabs(title = “Average Words vs. Negative Lines in each act of Macbeth”, x = “Average Words per Act”, y = “Number of Lines with Negative Words” ) + theme_minimal()\nmacbeth |&gt; filter( character == “Macbeth” ) |&gt; mutate( love_strings = str_extract( dialogue, “(?&lt;=(?i)love ).+”) ) |&gt; filter( !is.na(love_strings) ) |&gt; select( character:love_strings, -line_number )\nAfter looking at the negative, I decided to turn to the opposite — whether if Macbeth, the main character of the play, has explicity expressed “love” in the play, and to whom. So I used the lookaround function to spot instances of Macbeth saying the word “love” and the “love_strings” is whatever comes after “love”. Sadly, these instances only occured 4 times in the whole play and they seem to occur only in more generic settings (like toasting) — poor lady Macbeth :("
+  },
+  {
+    "objectID": "DS002 Final Prez.html#what-about",
+    "href": "DS002 Final Prez.html#what-about",
+    "title": "DS002 Final Prez",
+    "section": "What about",
+    "text": "What about\naverage_words &lt;- macbeth |&gt; mutate( string_length = str_length( dialogue ) ) |&gt; group_by( act ) |&gt; summarize( average_words = mean( string_length ) )\nnegative_words &lt;- left_join( neg_lines, average_words )\nggplot( negative_words, aes(x = average_words, y = average_negative_lines, label = act)) + geom_point(color = “blue”, size = 3) +\ngeom_text(vjust = -1, size = 4) +\nlabs(title = “Average Words vs. Negative Lines in each act of Macbeth”, x = “Average Words per Act”, y = “Number of Lines with Negative Words” ) + theme_minimal()\nmacbeth |&gt; filter( character == “Macbeth” ) |&gt; mutate( love_strings = str_extract( dialogue, “(?&lt;=(?i)love ).+”) ) |&gt; filter( !is.na(love_strings) ) |&gt; select( character:love_strings, -line_number )\nAfter looking at the negative, I decided to turn to the opposite — whether if Macbeth, the main character of the play, has explicity expressed “love” in the play, and to whom. So I used the lookaround function to spot instances of Macbeth saying the word “love” and the “love_strings” is whatever comes after “love”. Sadly, these instances only occured 4 times in the whole play and they seem to occur only in more generic settings (like toasting) — poor lady Macbeth :("
+  },
+  {
+    "objectID": "DS002 Final Prez.html#what-about-total-number-of-characters",
+    "href": "DS002 Final Prez.html#what-about-total-number-of-characters",
+    "title": "DS002 Final Prez",
+    "section": "What about total number of characters",
+    "text": "What about total number of characters\naverage_words &lt;- macbeth |&gt; mutate( string_length = str_length( dialogue ) ) |&gt; group_by( act ) |&gt; summarize( average_words = mean( string_length ) )\nnegative_words &lt;- left_join( neg_lines, average_words )\nggplot( negative_words, aes(x = average_words, y = average_negative_lines, label = act)) + geom_point(color = “blue”, size = 3) +\ngeom_text(vjust = -1, size = 4) +\nlabs(title = “Average Words vs. Negative Lines in each act of Macbeth”, x = “Average Words per Act”, y = “Number of Lines with Negative Words” ) + theme_minimal()\nmacbeth |&gt; filter( character == “Macbeth” ) |&gt; mutate( love_strings = str_extract( dialogue, “(?&lt;=(?i)love ).+”) ) |&gt; filter( !is.na(love_strings) ) |&gt; select( character:love_strings, -line_number )\nAfter looking at the negative, I decided to turn to the opposite — whether if Macbeth, the main character of the play, has explicity expressed “love” in the play, and to whom. So I used the lookaround function to spot instances of Macbeth saying the word “love” and the “love_strings” is whatever comes after “love”. Sadly, these instances only occured 4 times in the whole play and they seem to occur only in more generic settings (like toasting) — poor lady Macbeth :("
+  },
+  {
+    "objectID": "DS002 Final Prez.html#what-about-total-number-of-characters-per-line",
+    "href": "DS002 Final Prez.html#what-about-total-number-of-characters-per-line",
+    "title": "DS002 Final Prez",
+    "section": "What about total number of characters per line",
+    "text": "What about total number of characters per line\naverage_words &lt;- macbeth |&gt; mutate( string_length = str_length( dialogue ) ) |&gt; group_by( act ) |&gt; summarize( average_words = mean( string_length ) )\nnegative_words &lt;- left_join( neg_lines, average_words )\nggplot( negative_words, aes(x = average_words, y = average_negative_lines, label = act)) + geom_point(color = “blue”, size = 3) +\ngeom_text(vjust = -1, size = 4) +\nlabs(title = “Average Words vs. Negative Lines in each act of Macbeth”, x = “Average Words per Act”, y = “Number of Lines with Negative Words” ) + theme_minimal()\nmacbeth |&gt; filter( character == “Macbeth” ) |&gt; mutate( love_strings = str_extract( dialogue, “(?&lt;=(?i)love ).+”) ) |&gt; filter( !is.na(love_strings) ) |&gt; select( character:love_strings, -line_number )\nAfter looking at the negative, I decided to turn to the opposite — whether if Macbeth, the main character of the play, has explicity expressed “love” in the play, and to whom. So I used the lookaround function to spot instances of Macbeth saying the word “love” and the “love_strings” is whatever comes after “love”. Sadly, these instances only occured 4 times in the whole play and they seem to occur only in more generic settings (like toasting) — poor lady Macbeth :("
+  },
+  {
+    "objectID": "DS002 Final Prez.html#what-about-total-number-of-string-characters",
+    "href": "DS002 Final Prez.html#what-about-total-number-of-string-characters",
+    "title": "DS002 Final Prez",
+    "section": "What about total number of string characters",
+    "text": "What about total number of string characters\naverage_words &lt;- macbeth |&gt; mutate( string_length = str_length( dialogue ) ) |&gt; group_by( act ) |&gt; summarize( average_words = mean( string_length ) )\nnegative_words &lt;- left_join( neg_lines, average_words )\nggplot( negative_words, aes(x = average_words, y = average_negative_lines, label = act)) + geom_point(color = “blue”, size = 3) +\ngeom_text(vjust = -1, size = 4) +\nlabs(title = “Average Words vs. Negative Lines in each act of Macbeth”, x = “Average Words per Act”, y = “Number of Lines with Negative Words” ) + theme_minimal()\nmacbeth |&gt; filter( character == “Macbeth” ) |&gt; mutate( love_strings = str_extract( dialogue, “(?&lt;=(?i)love ).+”) ) |&gt; filter( !is.na(love_strings) ) |&gt; select( character:love_strings, -line_number )\nAfter looking at the negative, I decided to turn to the opposite — whether if Macbeth, the main character of the play, has explicity expressed “love” in the play, and to whom. So I used the lookaround function to spot instances of Macbeth saying the word “love” and the “love_strings” is whatever comes after “love”. Sadly, these instances only occured 4 times in the whole play and they seem to occur only in more generic settings (like toasting) — poor lady Macbeth :("
+  },
+  {
+    "objectID": "DS002 Final Prez.html#what-about-total-number-of-string-characters-per-line",
+    "href": "DS002 Final Prez.html#what-about-total-number-of-string-characters-per-line",
+    "title": "DS002 Final Prez",
+    "section": "What about total number of string characters per line",
+    "text": "What about total number of string characters per line\n\nstring_length = str_length( macbeth$dialogue )\n\nhead(string_length)                        \n\n[1] 42 30 34 27 31 32\n\n\n\naverage_character &lt;- macbeth |&gt;\n  mutate( string_length = str_length( dialogue ) ) |&gt;\n  group_by( act ) |&gt;\n  summarize( average_character = mean( string_length ) ) \n\naverage_character\n\n# A tibble: 5 × 2\n  act     average_character\n  &lt;chr&gt;               &lt;dbl&gt;\n1 Act I                36.3\n2 Act II               33.9\n3 Act III              36.1\n4 Act IV               34.7\n5 Act V                36.4"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#is-there-a-relationship",
+    "href": "DS002 Final Prez.html#is-there-a-relationship",
+    "title": "DS002 Final Prez",
+    "section": "Is there a relationship?",
+    "text": "Is there a relationship?\nHypothesis: Characters in acts that contain more negative lines also tend to speak longer sentences (i.e longer string length).\n\nnegative_words &lt;- left_join( neg_lines, average_character )\n\nhead(negative_words)\n\n# A tibble: 5 × 3\n  act     negative_lines_per_act average_character\n  &lt;chr&gt;                    &lt;int&gt;             &lt;dbl&gt;\n1 Act I                       15              36.3\n2 Act II                      31              33.9\n3 Act III                     27              36.1\n4 Act IV                      14              34.7\n5 Act V                       10              36.4"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#what-about-love",
+    "href": "DS002 Final Prez.html#what-about-love",
+    "title": "DS002 Final Prez",
+    "section": "What about “love”???",
+    "text": "What about “love”???\nDoes Macbeth ever verbally expressed “love” in the play??? and to whom?\n\nmacbeth |&gt;\n  filter( character == \"Macbeth\" ) |&gt;\n  mutate( love_strings = str_extract( dialogue, \"(?&lt;=(?i)love ).+\") ) |&gt;\n  filter( !is.na(love_strings) ) |&gt;\n  select( character:love_strings, -line_number )\n\n# A tibble: 4 × 3\n  character dialogue                                             love_strings   \n  &lt;chr&gt;     &lt;chr&gt;                                                &lt;chr&gt;          \n1 Macbeth   Safe toward your love and honour.                    and honour.    \n2 Macbeth   Courage to make 's love kno wn?                      kno wn?        \n3 Macbeth   Grapples you to the heart and love of us,            of us,         \n4 Macbeth   To those that know me. Come, love and health to all; and health to …\n\n\nSeems like it only occurred 4 times in the whole play and they seem to occur only in generic settings (“love and honour”, “love and health to all”, seems like words said when toasting) — poor lady Macbeth :("
+  },
+  {
+    "objectID": "DS002 Final Prez.html#ggplot",
+    "href": "DS002 Final Prez.html#ggplot",
+    "title": "DS002 Final Prez",
+    "section": "ggplot",
+    "text": "ggplot\n\nggplot( negative_words, aes(x = average_character, y = negative_lines_per_act, label = act)) +\n  geom_point(color = \"blue\", size = 3) +  \n  geom_text(vjust = -1, size = 4) +       \n  labs(title = \"Average Words vs. Negative Lines in each act of Macbeth\",\n       x = \"Average Words per Act\",\n       y = \"Number of Lines with Negative Words\" ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#is-there-a-relationship-1",
+    "href": "DS002 Final Prez.html#is-there-a-relationship-1",
+    "title": "DS002 Final Prez",
+    "section": "Is there a relationship?",
+    "text": "Is there a relationship?\n\n\n\n\nOpenning and closing (I and V) acts have the longest dialogues, but low negative lines\nIf any relationship: total negative lines per act seems to be negatively associated to average dialogue length per act -&gt; but comfounding variable: some acts may be longer than others\nAct II has the most negative lines, but the shortest dialogues in average"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#the-data",
+    "href": "DS002 Final Prez.html#the-data",
+    "title": "DS002 Final Prez",
+    "section": "The Data",
+    "text": "The Data\n“macbeth” from TidyTuesday!\n\nlibrary(dplyr)\nlibrary(tidyverse)\n\nmacbeth &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/macbeth.csv')\n\nhead(macbeth)\n\n# A tibble: 6 × 5\n  act   scene   character         dialogue                           line_number\n  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;             &lt;chr&gt;                                    &lt;dbl&gt;\n1 Act I Scene I [stage direction] Thunder and lightning. Enter thre…          NA\n2 Act I Scene I First Witch       When shall we three meet again               1\n3 Act I Scene I First Witch       In thunder, lightning, or in rain?           2\n4 Act I Scene I Second Witch      When the hurlyburly's done,                  3\n5 Act I Scene I Second Witch      When the battle's lost and won.              4\n6 Act I Scene I Third Witch       That will be ere the set of sun.             5"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#negative-lines-per-act",
+    "href": "DS002 Final Prez.html#negative-lines-per-act",
+    "title": "DS002 Final Prez",
+    "section": "Negative Lines Per Act",
+    "text": "Negative Lines Per Act\nTotal number of negative lines per act\n\nneg_lines &lt;- macbeth |&gt;\n  mutate( blood = str_detect( dialogue, \"(?i)blood|(?i)murder|(?i)death|(?i)kill\" ) ) |&gt;\n  filter( blood ) |&gt;\n  group_by( act ) |&gt;\n  summarize( negative_lines_per_act = n() ) \n\nneg_lines\n\n# A tibble: 5 × 2\n  act     negative_lines_per_act\n  &lt;chr&gt;                    &lt;int&gt;\n1 Act I                       15\n2 Act II                      31\n3 Act III                     27\n4 Act IV                      14\n5 Act V                       10"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#string-length",
+    "href": "DS002 Final Prez.html#string-length",
+    "title": "DS002 Final Prez",
+    "section": "String Length",
+    "text": "String Length\nString length counts the number of letters/characters/spaces in a string.\nIt is one way to quantify the length of each sentence of the dialogue.\n\nstring_length = str_length( macbeth$dialogue )\n\nhead(string_length)                        \n\n[1] 42 30 34 27 31 32"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#string-length-per-act",
+    "href": "DS002 Final Prez.html#string-length-per-act",
+    "title": "DS002 Final Prez",
+    "section": "String Length per Act",
+    "text": "String Length per Act\n\naverage_character &lt;- macbeth |&gt;\n  mutate( string_length = str_length( dialogue ) ) |&gt;\n  group_by( act ) |&gt;\n  summarize( average_character = mean( string_length ) ) \n\naverage_character\n\n# A tibble: 5 × 2\n  act     average_character\n  &lt;chr&gt;               &lt;dbl&gt;\n1 Act I                36.3\n2 Act II               33.9\n3 Act III              36.1\n4 Act IV               34.7\n5 Act V                36.4"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#average-string-length-per-act",
+    "href": "DS002 Final Prez.html#average-string-length-per-act",
+    "title": "DS002 Final Prez",
+    "section": "Average String Length per Act",
+    "text": "Average String Length per Act\n\naverage_character &lt;- macbeth |&gt;\n  mutate( string_length = str_length( dialogue ) ) |&gt;\n  group_by( act ) |&gt;\n  summarize( average_character = mean( string_length ) ) \n\naverage_character\n\n# A tibble: 5 × 2\n  act     average_character\n  &lt;chr&gt;               &lt;dbl&gt;\n1 Act I                36.3\n2 Act II               33.9\n3 Act III              36.1\n4 Act IV               34.7\n5 Act V                36.4"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#limitations",
+    "href": "DS002 Final Prez.html#limitations",
+    "title": "DS002 Final Prez",
+    "section": "Limitations",
+    "text": "Limitations\n\n“Negative” words are subjective! and only a very limited set of negative words were looked at here.\n\nLength of Acts were not captured: some acts may be much longer -&gt; leading to more negative words."
+  },
+  {
+    "objectID": "DS002 Final Prez.html#references",
+    "href": "DS002 Final Prez.html#references",
+    "title": "DS002 Final Prez",
+    "section": "References",
+    "text": "References\nPicture taken from: https://medium.com/literary-analyses/lady-macbeth-30e549b7c211 Data taken from TidyTuesday\nGitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data\nData originally sourced from: https://shakespeare.mit.edu/"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#welcome",
+    "href": "DS002 Final Prez.html#welcome",
+    "title": "DS002 Final Prez",
+    "section": "Welcome:",
+    "text": "Welcome:"
+  },
+  {
+    "objectID": "DS002 Final Prez.html#welcometo-the-world-of-macbeth",
+    "href": "DS002 Final Prez.html#welcometo-the-world-of-macbeth",
+    "title": "DS002 Final Prez",
+    "section": "Welcome…to the world of Macbeth",
+    "text": "Welcome…to the world of Macbeth\n\n\n\n\n\nMe in 6th grade:"
   }
 ]

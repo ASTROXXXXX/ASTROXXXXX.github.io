@@ -8,7 +8,7 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - text: Data Viz
+      - text: Projects
         menu:
         - text: Scent & Frangrance
           href: The Scent of Data.qmd
@@ -22,6 +22,9 @@ website:
           href: Ethics.qmd
         - text: SQL
           href: SQL.qmd
+      - text: DS002 Presentation
+        href: DS002 Final Prez.qmd
+
 
 format:
   html:
