@@ -128,6 +128,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Jason CV.pdf" target="_blank"> 
+<span class="menu-text">My CV</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Projects</span>
@@ -135,19 +139,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
         <li>
     <a class="dropdown-item" href="./The Scent of Data.html">
- <span class="dropdown-text">Scent &amp; Frangrance</span></a>
+ <span class="dropdown-text">Shiny</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Childcare Costs.html">
- <span class="dropdown-text">Childcare</span></a>
+ <span class="dropdown-text">Scatter Plot</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Strings.html">
- <span class="dropdown-text">Macbeth</span></a>
+ <span class="dropdown-text">Regular Expression</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Simulation Analysis.html">
- <span class="dropdown-text">Simulations</span></a>
+ <span class="dropdown-text">Simulation</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Ethics.html">
@@ -160,8 +164,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="./DS002 Final Prez.html"> 
-<span class="menu-text">DS002 Presentation</span></a>
+    <a class="nav-link" href="./DS002 Final Prez.html" target="_blank"> 
+<span class="menu-text">How a project is done</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -175,8 +179,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#do-the-total-number-of-traffic-stops-differ-by-race" id="toc-do-the-total-number-of-traffic-stops-differ-by-race" class="nav-link active" data-scroll-target="#do-the-total-number-of-traffic-stops-differ-by-race">Do the total number of traffic stops differ by race?</a>
+  <ul class="collapse">
+  <li><a href="#what-about-a-predominantly-white-state" id="toc-what-about-a-predominantly-white-state" class="nav-link" data-scroll-target="#what-about-a-predominantly-white-state">What about a predominantly White state?</a></li>
+  </ul></li>
+  <li><a href="#do-traffic-stops-vary-over-time" id="toc-do-traffic-stops-vary-over-time" class="nav-link" data-scroll-target="#do-traffic-stops-vary-over-time">Do traffic stops vary over time?</a></li>
+  <li><a href="#what-are-common-reasons-for-vehicular-and-pedestrian-stops" id="toc-what-are-common-reasons-for-vehicular-and-pedestrian-stops" class="nav-link" data-scroll-target="#what-are-common-reasons-for-vehicular-and-pedestrian-stops">What are common reasons for vehicular and pedestrian stops?</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a>
+  <ul class="collapse">
+  <li><a href="#who-collected-this-data-and-why" id="toc-who-collected-this-data-and-why" class="nav-link" data-scroll-target="#who-collected-this-data-and-why">Who collected this data and why?</a></li>
+  </ul></li>
+  <li><a href="#citation" id="toc-citation" class="nav-link" data-scroll-target="#citation">Citation</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -201,23 +221,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>con_traffic <span class="ot">&lt;-</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  RMariaDB<span class="sc">::</span><span class="fu">MariaDB</span>(),</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dbname =</span> <span class="st">"traffic"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">host =</span> <span class="fu">Sys.getenv</span>(<span class="st">"TRAFFIC_HOST"</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">user =</span> <span class="fu">Sys.getenv</span>(<span class="st">"TRAFFIC_USER"</span>),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="fu">Sys.getenv</span>(<span class="st">"TRAFFIC_PWD"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect to the Stanford Open Policing Project database using environment variables</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>con_traffic <span class="ot">&lt;-</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  RMariaDB<span class="sc">::</span><span class="fu">MariaDB</span>(),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dbname =</span> <span class="st">"traffic"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">host =</span> <span class="fu">Sys.getenv</span>(<span class="st">"TRAFFIC_HOST"</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">user =</span> <span class="fu">Sys.getenv</span>(<span class="st">"TRAFFIC_USER"</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="fu">Sys.getenv</span>(<span class="st">"TRAFFIC_PWD"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In this task, I’ll be using SQL, a query system for large datasets, to answer some questions about a huge dataset - Stanford Open Policing Project - which collected data on traffic stops across multiple states of the US over many years. I would like to answer these questions:<br>
-1. does the total amount of traffic stops differ based on race.<br>
-2. does the total amount of traffic stops differ over time.<br>
-3. what are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).</p>
+<p>This project uses SQL to analyze the Stanford Open Policing Project (SOPP) dataset, which contains traffic stop records from multiple U.S. states over several years. The goal is to explore the following questions:</p>
 <ol type="1">
-<li>does the total amount of traffic stops differ based on race.<br>
-</li>
+<li>Do the total number of traffic stops differ by race?</li>
+<li>Do traffic stops vary over time?</li>
+<li>What are common reasons for vehicular and pedestrian stops?</li>
 </ol>
+<section id="do-the-total-number-of-traffic-stops-differ-by-race" class="level2">
+<h2 class="anchored" data-anchor-id="do-the-total-number-of-traffic-stops-differ-by-race">Do the total number of traffic stops differ by race?</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  subject_race, </span>
@@ -250,20 +271,125 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>To narrow down the focus and avoiding to deal with too much data, I decided to look at the total amount of vehicular traffic stops in New Orleans in 2018 separated by black or white subjects. Here I found that the amount of incidents where a black subjects is stopped on the road is almost four times the amount that of white subjects. Even though, according to online sources, African Americans makes up approximately 60% of the population in New Orleans in 2018, whereas Whites only 30%, it is still quite disproportional that Black subjects are stopped four times as much as white subjects.</p>
-<ol start="2" type="1">
-<li>does the total amount of traffic stops differ over time.<br>
-</li>
-</ol>
+<p>To limit the scope of the data, I focused on vehicular stops in New Orleans in 2018 involving Black or White individuals. The results show that Black individuals were stopped nearly four times more often than White individuals. While approximately 60% of New Orleans’ population in 2018 was Black (compared to 30% White), this disparity still suggests a potential racial imbalance in stop rates.</p>
+<section id="what-about-a-predominantly-white-state" class="level3">
+<h3 class="anchored" data-anchor-id="what-about-a-predominantly-white-state">What about a predominantly White state?</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUBSTR</span>(<span class="dt">date</span>, <span class="dv">1</span>, <span class="dv">4</span>) <span class="kw">AS</span> <span class="dt">year</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  subject_race, </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_stops</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> la_new_orleans_2020_04_01</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> vt_statewide_2020_04_01</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">type</span> <span class="op">=</span> <span class="st">'vehicular'</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> STR_TO_DATE(<span class="fu">CONCAT</span>(vehicle_year, <span class="st">'-01-01'</span>), <span class="st">'%Y-%m-%d'</span>) <span class="kw">BETWEEN</span> <span class="st">'2010-01-01'</span> <span class="kw">AND</span> <span class="st">'2018-12-31'</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">year</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">year</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> subject_race <span class="kw">IN</span> (<span class="st">'white'</span>, <span class="st">'black'</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> STR_TO_DATE(<span class="fu">CONCAT</span>(<span class="fu">SUBSTR</span>(<span class="dt">date</span>, <span class="dv">1</span>, <span class="dv">4</span>), <span class="st">'-01-01'</span>), <span class="st">'%Y-%m-%d'</span>) <span class="op">=</span> <span class="st">'2015-01-01'</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> subject_race</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_stops <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>2 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">subject_race</th>
+<th style="text-align: right;">n_stops</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">white</td>
+<td style="text-align: right;">42449</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">1081</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-code-fold-default="true">
+<details class="code-fold">
+<summary>New Orleans vs Vermont</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Manually create a summary of stops and population demographics</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">area =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"New Orleans 2018"</span>, <span class="dv">2</span>), <span class="fu">rep</span>(<span class="st">"Vermont 2015"</span>, <span class="dv">2</span>)),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">race =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Black"</span>, <span class="st">"White"</span>), <span class="dv">2</span>),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">traffic_stops =</span> <span class="fu">c</span>(<span class="dv">16087</span>, <span class="dv">4389</span>, <span class="dv">1081</span>, <span class="dv">42449</span>),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">population_percent =</span> <span class="fu">c</span>(<span class="dv">59</span>, <span class="dv">31</span>, <span class="fl">1.2</span>, <span class="dv">93</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Subsets for each area</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>nola_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(area <span class="sc">==</span> <span class="st">"New Orleans 2018"</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>vermont_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(area <span class="sc">==</span> <span class="st">"Vermont 2015"</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bar plots for traffic stops and population %</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>nola_stops_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(nola_data, <span class="fu">aes</span>(<span class="at">x =</span> race, <span class="at">y =</span> traffic_stops, <span class="at">fill =</span> race)) <span class="sc">+</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Traffic Stops - New Orleans (2018)"</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Stops"</span>, <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data Source: Stanford Open Policing Project"</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>nola_pop_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(nola_data, <span class="fu">aes</span>(<span class="at">x =</span> race, <span class="at">y =</span> population_percent, <span class="at">fill =</span> race)) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Population % - New Orleans (2018)"</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Population %"</span>, <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data Source: U.S. Census"</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>vt_stops_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(vermont_data, <span class="fu">aes</span>(<span class="at">x =</span> race, <span class="at">y =</span> traffic_stops, <span class="at">fill =</span> race)) <span class="sc">+</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Traffic Stops - Vermont (2015)"</span>,</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Stops"</span>, <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data Source: Stanford Open Policing Project"</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>vt_pop_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(vermont_data, <span class="fu">aes</span>(<span class="at">x =</span> race, <span class="at">y =</span> population_percent, <span class="at">fill =</span> race)) <span class="sc">+</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Population % - Vermont (2015)"</span>,</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Population %"</span>, <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data Source: Vermont Department of Health"</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine plots</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>(nola_stops_plot <span class="sc">|</span> nola_pop_plot) <span class="sc">/</span> (vt_stops_plot <span class="sc">|</span> vt_pop_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="SQL_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><em>Figure: Traffic stops and population demographics in New Orleans and Vermont.</em><br>
+</p>
+<p><strong>Alt text:</strong> Four bar plots comparing racial demographics and traffic stops in New Orleans (2018) and Vermont (2015).</p>
+<p>In Vermont, where over 90% of the population is White (according to the Vermont Department of Health), the number of traffic stops reflects the demographic majority. Although a crude analysis, it suggests demographic patterns play a role in stop distribution. More rigorous statistical tests would be needed to investigate systemic bias.</p>
+</section>
+</section>
+<section id="do-traffic-stops-vary-over-time" class="level2">
+<h2 class="anchored" data-anchor-id="do-traffic-stops-vary-over-time">Do traffic stops vary over time?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUBSTR</span>(<span class="dt">date</span>, <span class="dv">1</span>, <span class="dv">4</span>) <span class="kw">AS</span> <span class="dt">year</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_stops</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> la_new_orleans_2020_04_01</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">type</span> <span class="op">=</span> <span class="st">'vehicular'</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> STR_TO_DATE(<span class="fu">CONCAT</span>(vehicle_year, <span class="st">'-01-01'</span>), <span class="st">'%Y-%m-%d'</span>) <span class="kw">BETWEEN</span> <span class="st">'2010-01-01'</span> <span class="kw">AND</span> <span class="st">'2018-12-31'</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">year</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">year</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>9 records</caption>
@@ -314,20 +440,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>Continuing from the previous query, I decided to look at the amount of vehicular stops in New Orleans every year since 2010 to 2018. The first 6 years show a fairly consistent increase in number of stops, which I suspect that it has to do with increased ownership of cars and population growth.</p>
-<ol start="3" type="1">
-<li>what are some most common reasons that warrants the stops, and whether it differs based on the type of stops (i.e vehicular or pedestrian).<br>
-</li>
-</ol>
+<p>This query returns annual traffic stop counts in New Orleans from 2010 to 2018. The data shows an upward trend in stops from 2010 to 2015. This may reflect increased vehicle ownership, population growth, or improved data collection systems.</p>
+</section>
+<section id="what-are-common-reasons-for-vehicular-and-pedestrian-stops" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-common-reasons-for-vehicular-and-pedestrian-stops">What are common reasons for vehicular and pedestrian stops?</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">type</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  reason_for_stop,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_stops</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> la_new_orleans_2020_04_01</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">type</span> <span class="kw">IN</span> (<span class="st">'pedestrian'</span>, <span class="st">'vehicular'</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="kw">type</span>, reason_for_stop</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="kw">type</span>, n_stops <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">type</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  reason_for_stop,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_stops</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> la_new_orleans_2020_04_01</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">type</span> <span class="kw">IN</span> (<span class="st">'pedestrian'</span>, <span class="st">'vehicular'</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="kw">type</span>, reason_for_stop</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="kw">type</span>, n_stops <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>9 records</caption>
@@ -393,15 +518,226 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>Lastly, I looked at some common reasons behind the traffic stops in New Orleans over the total amount of time this data was collected. Interestingly, pedestrian stops are unanimously due to “suspect person” and nothing related to traffic while vehicular stops are almost certainly related to traffic misdemeanors.</p>
+<p>In New Orleans, “traffic violation” is the most cited reason for vehicular stops, while all pedestrian stops were classified under “suspect person.” Let’s see how this compares with data from Grand Forks, North Dakota.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con_traffic, <span class="at">shutdown =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  reason_for_stop,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_stops</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> nd_grand_forks_2020_04_01</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">type</span> <span class="op">=</span> <span class="st">'pedestrian'</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> reason_for_stop</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_stops <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">reason_for_stop</th>
+<th style="text-align: right;">n_stops</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">DISORDERLY CONDUCT</td>
+<td style="text-align: right;">2063</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SIMPLE ASSAULT</td>
+<td style="text-align: right;">1066</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PUBLIC CONSUMPTION ON STREETS PROHIBITED</td>
+<td style="text-align: right;">441</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DRUG PARAPHERNALIA-POSSESSION</td>
+<td style="text-align: right;">323</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AGGRAVATED ASSAULT</td>
+<td style="text-align: right;">251</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CRIMINAL TRESPASS</td>
+<td style="text-align: right;">210</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CONTROLLED SUBSTANCE</td>
+<td style="text-align: right;">199</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">POSSESSION MARIJUANA</td>
+<td style="text-align: right;">173</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TRESPASS ON PRIVATE PROPERTY</td>
+<td style="text-align: right;">159</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OPEN CONTAINER PROHIBITED</td>
+<td style="text-align: right;">155</td>
+</tr>
+</tbody>
+</table>
 </div>
-<p>In conclusion, I found that in New Orleans 2018, there was almost four times the amount of vehicular traffic stops that involved a black subject than white subject, these stops seem to be consistently increasing through 2010 to 2015, and pedestrian stops seem to be due to non-traffic reasons while vehicular stops are almost always related to traffic reasons for the amount of time this study has been carried out.</p>
-<p>Reference.<br>
-Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al.&nbsp;2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  reason_for_stop,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_stops</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> nd_grand_forks_2020_04_01</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">type</span> <span class="op">=</span> <span class="st">'vehicular'</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> reason_for_stop</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_stops <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">reason_for_stop</th>
+<th style="text-align: right;">n_stops</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SPEED LIMITS</td>
+<td style="text-align: right;">13979</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ROW AT INTERSECTION-FAIL TO YIELD</td>
+<td style="text-align: right;">5376</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FAIL DISPLAY LIC PLATE/TAB</td>
+<td style="text-align: right;">4371</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TRAFFIC SIGNAL DISREGARD</td>
+<td style="text-align: right;">2142</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FOLLOW TOO CLOSE</td>
+<td style="text-align: right;">1584</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DUI</td>
+<td style="text-align: right;">1363</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FAIL TO HAVE VEH UNDER CONTROL</td>
+<td style="text-align: right;">1084</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SEAT BELTS TO BE WORN</td>
+<td style="text-align: right;">1066</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SEAT BELTS TO BE WORN|SPEED LIMITS</td>
+<td style="text-align: right;">711</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UNQUALIFIED OPERATOR</td>
+<td style="text-align: right;">634</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-code-fold-default="true">
+<details class="code-fold">
+<summary>Reasons for Stops in Grand Forks</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create top reason data for Grand Forks</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>pedestrian_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">reason =</span> <span class="fu">c</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DISORDERLY CONDUCT"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SIMPLE ASSAULT"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PUBLIC CONSUMPTION ON STREETS PROHIBITED"</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DRUG PARAPHERNALIA-POSSESSION"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"AGGRAVATED ASSAULT"</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_stops =</span> <span class="fu">c</span>(<span class="dv">2063</span>, <span class="dv">1066</span>, <span class="dv">441</span>, <span class="dv">323</span>, <span class="dv">251</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>vehicular_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">reason =</span> <span class="fu">c</span>(</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SPEED LIMITS"</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ROW AT INTERSECTION-FAIL TO YIELD"</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FAIL DISPLAY LIC PLATE/TAB"</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TRAFFIC SIGNAL DISREGARD"</span>,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FOLLOW TOO CLOSE"</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_stops =</span> <span class="fu">c</span>(<span class="dv">13979</span>, <span class="dv">5376</span>, <span class="dv">4371</span>, <span class="dv">2142</span>, <span class="dv">1584</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot pedestrian reasons</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>pedestrian_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pedestrian_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(reason, n_stops), <span class="at">y =</span> n_stops)) <span class="sc">+</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top 5 Reasons for Pedestrian Stops (Grand Forks)"</span>,</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Reason for Stop"</span>,</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Stops"</span>,</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data Source: Stanford Open Policing Project"</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot vehicular reasons</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>vehicular_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(vehicular_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(reason, n_stops), <span class="at">y =</span> n_stops)) <span class="sc">+</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"darkred"</span>) <span class="sc">+</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top 5 Reasons for Vehicular Stops (Grand Forks)"</span>,</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Reason for Stop"</span>,</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Stops"</span>,</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data Source: Stanford Open Policing Project"</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>pedestrian_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="SQL_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Reasons for Stops in Grand Forks</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>vehicular_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="SQL_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><em>Figure: Top 5 reasons for pedestrian and vehicular stops in Grand Forks.</em><br>
+</p>
+<p><strong>Alt text:</strong> Two bar charts showing leading causes of police stops for pedestrians and vehicles in Grand Forks, North Dakota.</p>
+<p>In contrast to New Orleans, Grand Forks lists more specific categories like “Disorderly Conduct” for pedestrians and “Speed Limits” for vehicles. This likely reflects differences in data categorization across jurisdictions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con_traffic, <span class="at">shutdown =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This exploratory analysis revealed that traffic stop counts often reflect local demographics but may still show racial disparities, especially in diverse cities like New Orleans. Additionally, the volume of stops has generally increased over time in certain regions, and the reasons for stops vary notably by region and stop type (vehicular vs pedestrian).</p>
+<section id="who-collected-this-data-and-why" class="level3">
+<h3 class="anchored" data-anchor-id="who-collected-this-data-and-why">Who collected this data and why?</h3>
+<p>The <strong>Stanford Open Policing Project (SOPP)</strong> was launched by researchers at Stanford University, including Emma Pierson, Camelia Simoiu, and others. The project aimed to analyze racial disparities in policing by compiling and standardizing traffic stop data from across the United States. Their goal was to provide an empirical foundation for understanding how race may influence police behavior and to inform discussions on law enforcement practices and policy reform.</p>
+</section>
+</section>
+<section id="citation" class="level2">
+<h2 class="anchored" data-anchor-id="citation">Citation</h2>
+<p>Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al.&nbsp;2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

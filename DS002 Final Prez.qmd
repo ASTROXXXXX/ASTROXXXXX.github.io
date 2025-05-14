@@ -1,7 +1,7 @@
 ---
-title: "DS002 Final Prez"
+title: "Behind the Scenes"
 author: "Jason Xu"
-subtitle: "May 13, 2025"
+subtitle: "Slides updated from DS002 course"
 format:
   revealjs:
     scrollable: true
@@ -101,7 +101,7 @@ head(negative_words)
 
 -   <div>
 
-    ![](NegWord Plot)
+    ![](NegWord%20Plot)
 
     </div>
 

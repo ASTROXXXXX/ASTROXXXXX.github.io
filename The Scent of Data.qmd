@@ -5,29 +5,30 @@ description: |
 format: html
 ---
 
-This dataset contains information about perfumes webscraped from Parfumo (community of perfume enthusiasts) by [Olga G.](https://www.kaggle.com/olgagmiufana1).
+This dataset contains information about perfumes webscraped from Parfumo, a community of perfume enthusiasts. The data was originally collected and made publicly available by [Olga G.](https://www.kaggle.com/olgagmiufana1), and was later featured in the TidyTuesday project for public data exploration and visualization.
 
-```{r}
-#| message: false
-#| warning: false
-library(dplyr)
-library(tidyverse)
+Play around with the interactive dashboard below to explore perfume rating distributions by brand presented by box plots. The goal is to visually analyze trends and preferences across different perfume manufacturers based on community ratings.
 
-parfumo_data_clean <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-12-10/parfumo_data_clean.csv')
+<iframe src="https://astroxxxxx.shinyapps.io/Perfume/" width="100%" height="700px" frameborder="0">
 
-brand_vs_rating <- parfumo_data_clean |>
-  group_by(Brand) |>
-  summarize( Average_Rating_Value = mean(Rating_Value, na.rm = TRUE) ) |>
-  arrange( desc( Average_Rating_Value ) ) 
+</iframe>
 
-top10_brand_vs_rating <- head( brand_vs_rating, 10)
-  
-ggplot( top10_brand_vs_rating, aes( x = Brand, y = Average_Rating_Value, fill = Brand ) ) +
-  geom_bar( stat = "identity") +
-  theme(axis.text.x = element_blank())
+------------------------------------------------------------------------
 
-```
+Data sourced from:
 
-Data taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data\
-Data originally sourced from Perfumo:\
-https://www.parfumo.com/
+-   TidyTuesday GitHub Repository: <https://github.com/rfordatascience/tidytuesday/tree/main/data>
+
+-   Original source: <https://www.parfumo.com/>
+
+------------------------------------------------------------------------
+
+## Citations
+
+1.  Olga G. *Parfumo Fragrance Dataset*. Kaggle. 2021. Available at: <https://www.kaggle.com/datasets/olgagmiufana1/perfume-dataset>
+
+2.  R4DS TidyTuesday Project. *TidyTuesday Datasets*. GitHub repository. 2024. Available at: <https://github.com/rfordatascience/tidytuesday>
+
+3.  Parfumo. *Perfume Community and Reviews*. <https://www.parfumo.com/>
+
+------------------------------------------------------------------------

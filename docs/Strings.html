@@ -129,6 +129,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Jason CV.pdf" target="_blank"> 
+<span class="menu-text">My CV</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Projects</span>
@@ -136,19 +140,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
         <li>
     <a class="dropdown-item" href="./The Scent of Data.html">
- <span class="dropdown-text">Scent &amp; Frangrance</span></a>
+ <span class="dropdown-text">Shiny</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Childcare Costs.html">
- <span class="dropdown-text">Childcare</span></a>
+ <span class="dropdown-text">Scatter Plot</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Strings.html">
- <span class="dropdown-text">Macbeth</span></a>
+ <span class="dropdown-text">Regular Expression</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Simulation Analysis.html">
- <span class="dropdown-text">Simulations</span></a>
+ <span class="dropdown-text">Simulation</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Ethics.html">
@@ -161,8 +165,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="./DS002 Final Prez.html"> 
-<span class="menu-text">DS002 Presentation</span></a>
+    <a class="nav-link" href="./DS002 Final Prez.html" target="_blank"> 
+<span class="menu-text">How a project is done</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -176,8 +180,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#lets-look-at-the-data" id="toc-lets-look-at-the-data" class="nav-link active" data-scroll-target="#lets-look-at-the-data">Let’s Look at the Data</a></li>
+  <li><a href="#negative-words-vs.-string-length" id="toc-negative-words-vs.-string-length" class="nav-link" data-scroll-target="#negative-words-vs.-string-length">Negative Words vs.&nbsp;String Length</a></li>
+  <li><a href="#average-negative-lines-per-act" id="toc-average-negative-lines-per-act" class="nav-link" data-scroll-target="#average-negative-lines-per-act">Average Negative Lines per Act</a></li>
+  <li><a href="#defining-negative-words-differently" id="toc-defining-negative-words-differently" class="nav-link" data-scroll-target="#defining-negative-words-differently">Defining Negative Words Differently</a></li>
+  <li><a href="#loving-strings" id="toc-loving-strings" class="nav-link" data-scroll-target="#loving-strings">Loving Strings</a>
+  <ul class="collapse">
+  <li><a href="#data-citations" id="toc-data-citations" class="nav-link" data-scroll-target="#data-citations">Data Citations</a></li>
+  <li><a href="#data-origin-and-purpose" id="toc-data-origin-and-purpose" class="nav-link" data-scroll-target="#data-origin-and-purpose">Data Origin and Purpose</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -206,91 +224,158 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This dataset contains the entire script of the famous Shakesqeare play: Macbeth. As a side note, I was actually really into acting back in middle school, and I actually played a character (who’s name I forgot - not a big character) in Macbeth during one of the school shows. I’m excited, let’s go ahead and play with the data :)</p>
+<p>This dataset contains the full script of the famous Shakespearean play <em>Macbeth</em>. As a side note, I was really into acting back in middle school and actually played a character (whose name I’ve forgotten—it wasn’t a major role) in <em>Macbeth</em> during one of our school productions. I’m excited to revisit the play from a data perspective—let’s dive in!</p>
+<section id="lets-look-at-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="lets-look-at-the-data">Let’s Look at the Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import Data</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'dplyr'</code></pre>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the Macbeth dialogue data</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>macbeth <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/macbeth.csv'</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Display first few rows</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(macbeth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  act   scene   character         dialogue                           line_number
+  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;             &lt;chr&gt;                                    &lt;dbl&gt;
+1 Act I Scene I [stage direction] Thunder and lightning. Enter thre…          NA
+2 Act I Scene I First Witch       When shall we three meet again               1
+3 Act I Scene I First Witch       In thunder, lightning, or in rain?           2
+4 Act I Scene I Second Witch      When the hurlyburly's done,                  3
+5 Act I Scene I Second Witch      When the battle's lost and won.              4
+6 Act I Scene I Third Witch       That will be ere the set of sun.             5</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:stats':
-
-    filter, lag</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ forcats   1.0.0     ✔ readr     2.1.5
-✔ ggplot2   3.5.1     ✔ stringr   1.5.1
-✔ lubridate 1.9.4     ✔ tibble    3.2.1
-✔ purrr     1.0.2     ✔ tidyr     1.3.1</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>macbeth <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/macbeth.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 2553 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (4): act, scene, character, dialogue
-dbl (1): line_number
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Total Number of Negative Lines in each act</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>neg_lines <span class="ot">&lt;-</span> macbeth <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">blood =</span> <span class="fu">str_detect</span>( dialogue, <span class="st">"(?i)blood|(?i)murder[er]|(?i)death|(?i)kill"</span> ) ) <span class="sc">|&gt;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( blood ) <span class="sc">|&gt;</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>( act ) <span class="sc">|&gt;</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>( <span class="at">average_negative_lines =</span> <span class="fu">n</span>() ) </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Average Character per Line in each act</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>average_words <span class="ot">&lt;-</span> macbeth <span class="sc">|&gt;</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">string_length =</span> <span class="fu">str_length</span>( dialogue ) ) <span class="sc">|&gt;</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>( act ) <span class="sc">|&gt;</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>( <span class="at">average_words =</span> <span class="fu">mean</span>( string_length ) ) </span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>negative_words <span class="ot">&lt;-</span> <span class="fu">left_join</span>( neg_lines, average_words )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Joining with `by = join_by(act)`</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>( negative_words, <span class="fu">aes</span>(<span class="at">x =</span> average_words, <span class="at">y =</span> average_negative_lines, <span class="at">label =</span> act)) <span class="sc">+</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span>  </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span>       </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Average Words vs. Negative Lines in each act of Macbeth"</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Average Words per Act"</span>,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Lines with Negative Words"</span> ) <span class="sc">+</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each observation in this dataset is a line of dialogue (excluding stage directions) from a character in the play. The dataset is arranged in the same order as the original script.</p>
+</section>
+<section id="negative-words-vs.-string-length" class="level2">
+<h2 class="anchored" data-anchor-id="negative-words-vs.-string-length">Negative Words vs.&nbsp;String Length</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count lines per act containing "negative" words</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>neg_lines <span class="ot">&lt;-</span> macbeth <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">blood =</span> <span class="fu">str_detect</span>(dialogue, <span class="st">"(?i)blood|(?i)murder|(?i)death|(?i)kill"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(blood) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(act) <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">negative_lines_per_act =</span> <span class="fu">n</span>())</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute average string length per act</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>average_character <span class="ot">&lt;-</span> macbeth <span class="sc">|&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">string_length =</span> <span class="fu">str_length</span>(dialogue)) <span class="sc">|&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(act) <span class="sc">|&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">average_character =</span> <span class="fu">mean</span>(string_length))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge summaries</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>negative_words <span class="ot">&lt;-</span> <span class="fu">left_join</span>(neg_lines, average_character)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot relationship</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(negative_words, <span class="fu">aes</span>(<span class="at">x =</span> average_character, <span class="at">y =</span> negative_lines_per_act, <span class="at">label =</span> act)) <span class="sc">+</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Average String Length"</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Total Negative Lines"</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Negative Lines vs. Average String Length by Act"</span>,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">alt =</span> <span class="st">"A scatter plot with average dialogue length on the x-axis and number of negative lines on the y-axis, labeled by act"</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Strings_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Strings_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Here, I counted the number of lines in each act of Macbeth that contained one or more “negative words”, which I defined to be “blood”, “murder(er)”, “death” and “kill”. Then, it is paired up with the average number of words in each act (see figure above). I was interested in knowing if a particular act had more lines containing “negative words” than perhaps the characters spoke more on average (or less, there is some relationship is the point). However, just by eyeballing the above plot, it seems like there is no clear relationship between the two. (noticeably, however, Act III is a pretty extreme outlier, if we ignore it the plot actually shows a pretty down-wards trending relationship).</p>
+<p>Figure 1. Negative Lines vs.&nbsp;Average String Length by Act This scatter plot explores whether acts with more negatively worded lines (blood, murder, death, kill) tend to feature shorter or longer lines on average. It appears there’s a slight negative trend—suggesting that darker scenes may include shorter dialogue.</p>
+<p>I defined negative words as any line containing “blood”, “murder”, “death”, or “kill”. I then counted the number of such lines in each act and compared that count to the average length of lines in the same act. This plot shows a slight negative relationship, which might imply that characters use shorter sentences in darker scenes. However, it could also be that some acts are longer overall and have more dialogue, which inflates the negative line count. Let’s control for act length next.</p>
+</section>
+<section id="average-negative-lines-per-act" class="level2">
+<h2 class="anchored" data-anchor-id="average-negative-lines-per-act">Average Negative Lines per Act</h2>
+<div class="cell" data-code-fold-default="true">
+<details class="code-fold">
+<summary>Get Average Negative Lines</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate average presence of negative words per act</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>neg_lines <span class="ot">&lt;-</span> macbeth <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">blood =</span> <span class="fu">str_detect</span>(dialogue, <span class="st">"(?i)blood|(?i)murder|(?i)death|(?i)kill"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(act) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_negative_lines_per_act =</span> <span class="fu">mean</span>(blood))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Join with average string length data</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>negative_words <span class="ot">&lt;-</span> <span class="fu">left_join</span>(neg_lines, average_character)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(negative_words, <span class="fu">aes</span>(<span class="at">x =</span> average_character, <span class="at">y =</span> avg_negative_lines_per_act, <span class="at">label =</span> act)) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Average String Length"</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Average Negative Lines (Proportion)"</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Proportion of Negative Lines vs. Average String Length"</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">alt =</span> <span class="st">"A scatter plot with average dialogue length on the x-axis and proportion of negative lines on the y-axis, labeled by act."</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Strings_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Figure 2. Proportion of Negative Lines vs.&nbsp;Average String Length This plot shows that even after accounting for the number of lines in each act (by using proportions), the trend remains similar. Act II still stands out as the most negative—consistent with the murder of King Duncan.</p>
+<p>By calculating the average rate of negative lines (as a proportion), we control for act length. The trend remains consistent, especially with Act II still exhibiting a high proportion of negativity—aligning with when Macbeth murders the king.</p>
+</section>
+<section id="defining-negative-words-differently" class="level2">
+<h2 class="anchored" data-anchor-id="defining-negative-words-differently">Defining Negative Words Differently</h2>
+<div class="cell" data-code-fold-default="true">
+<details class="code-fold">
+<summary>Define Negative Words Differently</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># New negative words: fight, hurt, die, dead</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>neg_lines <span class="ot">&lt;-</span> macbeth <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">blood =</span> <span class="fu">str_detect</span>(dialogue, <span class="st">"(?i)fight|(?i)hurt|(?i)die|(?i)dead"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(blood) <span class="sc">|&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(act) <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">negative_lines_per_act =</span> <span class="fu">n</span>())</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge with string length</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>negative_words <span class="ot">&lt;-</span> <span class="fu">left_join</span>(neg_lines, average_character)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(negative_words, <span class="fu">aes</span>(<span class="at">x =</span> average_character, <span class="at">y =</span> negative_lines_per_act, <span class="at">label =</span> act)) <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Average String Length"</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Total Negative Lines"</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Negative Lines Using Alternate Word Set"</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">alt =</span> <span class="st">"A scatter plot comparing acts based on average dialogue length and number of lines with the alternate set of negative words."</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Strings_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Figure 3. Negative Lines Using Alternate Word Set When redefining “negative” to mean lines that include “fight”, “hurt”, “die”, or “dead”, we see a different pattern. Act V now appears as the most negative—reflecting the climactic violence and deaths in the final scenes.</p>
+<p>By redefining negative language, the results shift. Act V now tops the list for negativity, which makes sense—this is where the final battle takes place and multiple major characters, including Macbeth and Lady Macbeth, meet their end.</p>
+</section>
+<section id="loving-strings" class="level2">
+<h2 class="anchored" data-anchor-id="loving-strings">Loving Strings</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>macbeth <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( character <span class="sc">==</span> <span class="st">"Macbeth"</span> ) <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">love_strings =</span> <span class="fu">str_extract</span>( dialogue, <span class="st">"(?&lt;=(?i)love ).+"</span>) ) <span class="sc">|&gt;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( <span class="sc">!</span><span class="fu">is.na</span>(love_strings) ) <span class="sc">|&gt;</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>( character<span class="sc">:</span>love_strings, <span class="sc">-</span>line_number )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for lines by Macbeth containing "love", and extract what comes after "love"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>macbeth <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(character <span class="sc">==</span> <span class="st">"Macbeth"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">love_strings =</span> <span class="fu">str_extract</span>(dialogue, <span class="st">"(?&lt;=(?i)love ).+"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(love_strings)) <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(character<span class="sc">:</span>love_strings, <span class="sc">-</span>line_number)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 3
   character dialogue                                             love_strings   
@@ -301,12 +386,19 @@ dbl (1): line_number
 4 Macbeth   To those that know me. Come, love and health to all; and health to …</code></pre>
 </div>
 </div>
-<p>After looking at the negative, I decided to turn to the opposite — whether if Macbeth, the main character of the play, has explicity expressed “love” in the play, and to whom. So I used the lookaround function to spot instances of Macbeth saying the word “love” and the “love_strings” is whatever comes after “love”. Sadly, these instances only occured 4 times in the whole play and they seem to occur only in more generic settings (like toasting) — poor lady Macbeth :(</p>
-<p>Data taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data<br>
-Data originally sourced from:<br>
-https://shakespeare.mit.edu/</p>
+<p>After analyzing dark themes, I wanted to explore the opposite. Has Macbeth ever spoken about love? I filtered the data to include only lines spoken by Macbeth and used a lookaround regular expression to extract any text that follows the word “love”. Disappointingly, such expressions occurred only four times—and most were general in tone (e.g., during toasts), rather than personal or romantic. Poor Lady Macbeth.</p>
+<section id="data-citations" class="level3">
+<h3 class="anchored" data-anchor-id="data-citations">Data Citations</h3>
+<p>TidyTuesday Dataset URL: <a href="https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-09-17" class="uri">https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-09-17</a> Author: TidyTuesday | Community Title: Macbeth Dialogue | Dataset Publication Source: GitHub (R for Data Science Learning Community), 2024</p>
+<p>Original Text Source URL: <a href="https://shakespeare.mit.edu/macbeth/full.html" class="uri">https://shakespeare.mit.edu/macbeth/full.html</a> Editor: MIT Shakespeare | Title: The Complete Works of William Shakespeare | Publication Source: MIT, Public Domain</p>
+</section>
+<section id="data-origin-and-purpose" class="level3">
+<h3 class="anchored" data-anchor-id="data-origin-and-purpose">Data Origin and Purpose</h3>
+<p>The data was collected and shared by the R4DS (R for Data Science) Online Learning Community as part of their weekly TidyTuesday project. These datasets are curated to help learners practice data wrangling, visualization, and storytelling using real-world datasets. The Shakespeare dataset was sourced from MIT’s public domain archive and restructured into a tabular format for easier analysis and visualization.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

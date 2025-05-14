@@ -129,25 +129,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Jason CV.pdf" target="_blank"> 
+<span class="menu-text">My CV</span></a>
+  </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-viz" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Data Viz</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-viz">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
         <li>
     <a class="dropdown-item" href="./The Scent of Data.html">
- <span class="dropdown-text">Scent &amp; Frangrance</span></a>
+ <span class="dropdown-text">Shiny</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Childcare Costs.html">
- <span class="dropdown-text">Childcare</span></a>
+ <span class="dropdown-text">Scatter Plot</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./String.qmd">
- <span class="dropdown-text">Macbeth</span></a>
+    <a class="dropdown-item" href="./Strings.html">
+ <span class="dropdown-text">Regular Expression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Simulation Analysis.html">
+ <span class="dropdown-text">Simulation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Ethics.html">
+ <span class="dropdown-text">Ethics in Data Science</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./SQL.html">
+ <span class="dropdown-text">SQL</span></a>
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./DS002 Final Prez.html" target="_blank"> 
+<span class="menu-text">How a project is done</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -160,8 +180,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#citations" id="toc-citations" class="nav-link active" data-scroll-target="#citations">Citations</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -190,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This dataset comes from the National Database of Childcare Prices (NDCP), which is (one of) the most comprehensive federal source of childcare at the county level. Data provided by Thomas Mock.</p>
+<p>This dataset comes from the <strong>National Database of Childcare Prices (NDCP)</strong>, one of the most comprehensive federal sources of childcare data at the county level. It includes detailed cost information by age group, geography, and provider type. The data was prepared for the TidyTuesday project by Thomas Mock and is available publicly for analysis.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -209,11 +235,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Data taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data<br>
-Data originally sourced from National Database of Childcare Prices:<br>
-https://www.dol.gov/agencies/wb/topics/featured-childcare</p>
+<hr>
+<section id="citations" class="level2">
+<h2 class="anchored" data-anchor-id="citations">Citations</h2>
+<ol type="1">
+<li><p>Mock, Thomas. TidyTuesday: Childcare Costs Dataset. GitHub - rfordatascience/tidytuesday. 2023. Available at: <a href="https://github.com/rfordatascience/tidytuesday/tree/main/data/2023/2023-05-09" class="uri">https://github.com/rfordatascience/tidytuesday/tree/main/data/2023/2023-05-09</a></p></li>
+<li><p>U.S. Department of Labor, Women’s Bureau. National Database of Childcare Prices (NDCP). 2022. Available at: <a href="https://www.dol.gov/agencies/wb/topics/featured-childcare" class="uri">https://www.dol.gov/agencies/wb/topics/featured-childcare</a></p></li>
+</ol>
+<hr>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

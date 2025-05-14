@@ -3,11 +3,13 @@ title: "Simulation!"
 format: html
 ---
 
-Assuming that there are four course registration periods over four years of a student's time at Pomona College (there are actually 8), and course registration happens once per year. Suppose that (drawing from personal experience) the college's algorithm is designed so that it categorizes registration times into:\
-1. Early: 8 \~ 10am.\
-2. Moderately Early: 10 \~ noon.\
-3. Moderately Late: noon \~ 2pm.\
-4. Late: 2 \~ 4pm.\
+Assuming that there are four course registration periods over four years of a student's time at Pomona College (there are actually 8), and course registration happens once per year. Suppose that (drawing from personal experience) the college's algorithm is designed so that it categorizes registration times into:
+
+> 1\. Early: 8 \~ 10am\
+> 2. Moderately Early: 10 \~ noon\
+> 3. Moderately Late: noon \~ 2pm\
+> 4. Late: 2 \~ 4pm
+
 and suppose that during course registration the algorithm first randomly determines a category and then randomly assigns a time (by each minute) within that category to each student and also makes sure that each category is assigned to each student only once over their four years at the college (i.e four course registrations).
 
 Suppose that the best thing to happen is either A. a freshman gets a time before 9am (so that he/she can beat the other freshmen in the same category) B. a sophomore gets a time before 11am. I want to use simulation to find the probability of A., B. and for the luckiest ones, A. and B. both happen.
@@ -18,41 +20,40 @@ Suppose that the best thing to happen is either A. a freshman gets a time before
 library(tidyverse)
 set.seed(47)
 
+# Simulation function for course registration scenario
 corsreg_func <- function(banana){
-  # shuffle categories
-  cats = sample(c(1:4), 4, replace = FALSE)
-  # a random time in 2 hours
-  times = sample(c(1:120), 4, replace = TRUE)
+  cats = sample(c(1:4), 4, replace = FALSE)  # randomize category order
+  times = sample(c(1:120), 4, replace = TRUE)  # assign time in each category
 
   data.frame(
-  lucky_freshman = (cats[1] == 1 && times[1] <= 59),
-  lucky_sophomore = (cats[2] == 1 | cats[2] == 2 && times[2] <= 59),
-  luckiest_one = ((cats[1] == 1 && times[1] <= 59) && (cats[2] == 1 | cats[2] == 2 && times[2] <= 59)))
-  }
+    lucky_freshman = (cats[1] == 1 && times[1] <= 59),
+    lucky_sophomore = (cats[2] == 1 | cats[2] == 2 && times[2] <= 59),
+    luckiest_one = ((cats[1] == 1 && times[1] <= 59) && (cats[2] == 1 | cats[2] == 2 && times[2] <= 59))
+  )
+}
 
-n <- 1761
-corsreg_data <- map(1:n, corsreg_func) |>
-  list_rbind()
+n <- 1761  # approximate number of Pomona students
+corsreg_data <- map(1:n, corsreg_func) |> list_rbind()
 
-summary_data <- corsreg_data |>
+summary_data <- corsreg_data |> 
   summarise(
     lucky_freshman_prop = mean(lucky_freshman),
     lucky_sophomore_prop = mean(lucky_sophomore),
     luckiest_one_prop = mean(luckiest_one)
-  ) |>
+  ) |> 
   pivot_longer(cols = everything(), names_to = "category", values_to = "proportion")
-
 
 summary_data$category <- factor(summary_data$category, 
                                  levels = c("lucky_freshman_prop", "lucky_sophomore_prop", "luckiest_one_prop"))
 
-
+# Visualization
 ggplot(summary_data, aes(x = category, y = proportion, fill = category)) +
   geom_bar(stat = "identity", width = 0.6) +
   labs(
     title = "Course Registration Simulation at Pomona College",
     x = "I simulated 1761 times to approximate the number of students on campus",
-    y = "Proportion"
+    y = "Proportion",
+    alt = "Bar graph showing approximate proportions of students with early course registration times in freshman (11%), sophomore (36%), and both years (2%)"
   ) +
   theme_minimal() +
   geom_text(aes(label = round(proportion, 3)), vjust = -0.5) +  
@@ -60,4 +61,20 @@ ggplot(summary_data, aes(x = category, y = proportion, fill = category)) +
   theme(axis.text.x = element_blank())
 ```
 
+Figure 1: Proportion of students who were lucky in freshman, sophomore, or both years of registration.
+
 Seems like there is around 11% probability for a student to be lucky in their course registrations during their freshman year, and a much greater probability (around 36%) for him/her to be lucky in their sophomore year. But getting extremely lucky, where he/she get an early time for both years is extremely rare (around 2%). Despite the fact that I believe getting a time before 9am is pretty important for a freshman to get into a class they wanted, knowing that there is almost 40% students who will get an ideal time in their sophomore year is pretty relieving. Some lucky sophomores may also be lucky in their freshman year, but that rate is low (around 2%). I personally think that the algorithm, as presented here, seems to be decent, because we are getting ideal results for almost 40% of the students in their sophomore year (which is pretty high). But things could also be said about the pretty low rate (11%) to be lucky freshman. But it is also important to note that we have other mechanisms to distribute courses to students who actually need them (or need them more), such as the PERM system or considerations on individual basis.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Probability of Being Lucky Freshman OR Sophomore"
+#| code-fold-default: true
+# Add OR case to the dataset and compute the proportion
+corsreg_data <- corsreg_data |> 
+  mutate(lucky_either = lucky_freshman | lucky_sophomore)
+
+or_summary <- summarise(corsreg_data, prob_lucky_either = mean(lucky_either))
+or_summary
+```
+
+I also calculated the probability that a student is lucky in either their freshman or sophomore year. This came out to be approximately 45%, which is substantially higher than the probability of being lucky in both years (only \~2%). This suggests that although it’s rare for someone to get great registration times in both years, it’s quite likely they’ll have at least one year with a favorable time. This adds further evidence that the registration system provides a fair spread of opportunity over time.

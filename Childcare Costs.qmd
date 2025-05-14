@@ -5,7 +5,7 @@ description: |
 format: html
 ---
 
-This dataset comes from the National Database of Childcare Prices (NDCP), which is (one of) the most comprehensive federal source of childcare at the county level. Data provided by Thomas Mock.
+This dataset comes from the **National Database of Childcare Prices (NDCP)**, one of the most comprehensive federal sources of childcare data at the county level. It includes detailed cost information by age group, geography, and provider type. The data was prepared for the TidyTuesday project by Thomas Mock and is available publicly for analysis.
 
 ```{r}
 #| message: false
@@ -21,6 +21,12 @@ ggplot( aes( x = mcsa, y = pr_f ) ) +
         y = "poverty rate for familie" )
 ```
 
-Data taken from TidyTuesday GitHub Repository: https://github.com/rfordatascience/tidytuesday/tree/main/data\
-Data originally sourced from National Database of Childcare Prices:\
-https://www.dol.gov/agencies/wb/topics/featured-childcare
+------------------------------------------------------------------------
+
+## Citations
+
+1.  Mock, Thomas. TidyTuesday: Childcare Costs Dataset. GitHub - rfordatascience/tidytuesday. 2023. Available at: <https://github.com/rfordatascience/tidytuesday/tree/main/data/2023/2023-05-09>
+
+2.  U.S. Department of Labor, Women's Bureau. National Database of Childcare Prices (NDCP). 2022. Available at: <https://www.dol.gov/agencies/wb/topics/featured-childcare>
+
+------------------------------------------------------------------------

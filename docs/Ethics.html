@@ -94,26 +94,30 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Jason CV.pdf" target="_blank"> 
+<span class="menu-text">My CV</span></a>
+  </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-viz" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Data Viz</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-projects" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Projects</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-viz">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-projects">    
         <li>
     <a class="dropdown-item" href="./The Scent of Data.html">
- <span class="dropdown-text">Scent &amp; Frangrance</span></a>
+ <span class="dropdown-text">Shiny</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Childcare Costs.html">
- <span class="dropdown-text">Childcare</span></a>
+ <span class="dropdown-text">Scatter Plot</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Strings.html">
- <span class="dropdown-text">Macbeth</span></a>
+ <span class="dropdown-text">Regular Expression</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Simulation Analysis.html">
- <span class="dropdown-text">Simulations</span></a>
+ <span class="dropdown-text">Simulation</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./Ethics.html">
@@ -125,6 +129,10 @@ ul.task-list li input[type="checkbox"] {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./DS002 Final Prez.html" target="_blank"> 
+<span class="menu-text">How a project is done</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -137,8 +145,19 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#scenario" id="toc-scenario" class="nav-link active" data-scroll-target="#scenario">Scenario</a></li>
+  <li><a href="#what-was-the-data-collection-process-were-the-observations-collected-ethically-are-there-missing-observations" id="toc-what-was-the-data-collection-process-were-the-observations-collected-ethically-are-there-missing-observations" class="nav-link" data-scroll-target="#what-was-the-data-collection-process-were-the-observations-collected-ethically-are-there-missing-observations">What was the data collection process? Were the observations collected ethically? Are there missing observations?</a></li>
+  <li><a href="#is-the-data-being-used-in-unintended-ways-to-the-original-study" id="toc-is-the-data-being-used-in-unintended-ways-to-the-original-study" class="nav-link" data-scroll-target="#is-the-data-being-used-in-unintended-ways-to-the-original-study">Is the data being used in unintended ways to the original study?</a></li>
+  <li><a href="#should-race-be-used-as-a-variable-is-it-a-proxy-for-something-else-what-about-gender" id="toc-should-race-be-used-as-a-variable-is-it-a-proxy-for-something-else-what-about-gender" class="nav-link" data-scroll-target="#should-race-be-used-as-a-variable-is-it-a-proxy-for-something-else-what-about-gender">Should race be used as a variable? Is it a proxy for something else? What about gender?</a></li>
+  <li><a href="#did-it-create-reproducible-and-extensible-work" id="toc-did-it-create-reproducible-and-extensible-work" class="nav-link" data-scroll-target="#did-it-create-reproducible-and-extensible-work">Did it create reproducible and extensible work?</a></li>
+  <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations">Citations</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -162,26 +181,45 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Scenario.<br>
-The COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) algorithm is developed by a for-profit company called Northpointe. It is used in courtrooms across the US to help inform sentencing decisions, set bail/bond amounts, and other decision-makings in the criminal justice system (Angwin et al, 2016). The algorithm’s key feature is to produce “risk ratings” for defendants based on their criminal history and their response to a questionnaire of more than 100 questions (Angwin et al, 2016). The ethical consideration is that the algorithm seems to be racial and gender sensitive. It was found that it is “particularly likely to falsely flag black defendants as future criminals, wrongly labeling them this way at almost twice the rate as white defendants” (Angwin et al, 2016), and “women were rated two classes worse then men”. (Drosser et al, 2020).</p>
-<p>It is easy to conclude that the algorithm is biased/or even racist/sexist against defendants, but it may be a bit deeper than that. For one thing, the algorithm seems “accurate” in predicting recidivism rates across race. In other words, there is a similar proportion of white defendants who will re-offend a crime compared to black defendants of the same risk rating (Corbett-Davies et al, 2018), and that seems to be what the risk ratings were initially designed to embody. It has been proposed that, maybe it is impossible for an algorithm to achieve both: 1. well calibrated between groups, where the risk ratings mean the same thing between groups. 2. not falsely flag certain groups more frequently than others (this is called false positives). Maybe it is achievable in a perfect society when everybody in every group receive the same amount of resources, education, etc. But in this world, where inequality and discrimination is not uncommon, especially from the past, racial groups unfortunately may be correlated with the likelihood to commit (or recommit) a crime (this is known as base rate differences). This correlation may be the reason why it may be impossible to do the two things aforementioned (This argument is mainly derived from Corbett-Davies et al, 2018).</p>
-<p>Questions.<br>
-What was the data collection process? Were the observations collected ethically? Are there missing observations?</p>
-<p>An issue with the data collection process could be that data is acquired without the subject’s consent or even without their knowledge. The application of this to the example above could be a bit tricky, because the subjects are suspects of certain crimes. In the algorithm, data are drawn from the defendant’s criminal records (probably automatically) and the defendant’s are given some questions to answer. The fact that a private company can have access to someone’s criminal records may or may not be an issue, but some questions do seem a bit problematic. For example a question would ask if the defendant agree or disagree with statements like “A hungry person has a right to steal” and “If people make me angry or lose my temper, I can be dangerous” (Angwin et al, 2016).</p>
-<p>Is the data being used in unintended ways to the original study?</p>
-<p>Yes, the algorithm is invented by Tim Brennan, former professor of statistics at the University of Colorado. He later sold the algorithm to a for-profit company that currently runs the algorithm. Brennan claimed that his original focus was for the algorithm to “reduce crime rather than punish”, and he “does not like the idea that COMPAS being the sole evidence that a decision would be based upon” (Angwin et al, 2016). But whether he likes it or not, as the algorithm got adopted by many courts and entities in the criminal justice system across the country, and its use has definitely departed from what is original intended.</p>
-<p>Should race be used as a variable? Is it a proxy for something else? What about gender?</p>
-<p>I think whether race is explicitly used as a variable or not, many algorithms, COMPAS included, still effectively “uses” race via other proxy attributes of it (same goes for gender). An interesting thing is that, according to Northpointe, race, gender or any other socially protected categories are actually not explicitly asked in their questions or entered in the algorithm (Angwin et al, 2016). But there is many reason to believe that the algorithm, alternatively, uses other “proxies” for race and gender. For one, the algorithm clearly seems to be predicting female defendants to be “riskier” than male defendants, by 2 risk ratings, according to a study (Drosser et al, 2020).</p>
-<p>Did it create reproducible and extensible work?</p>
-<p>It didn’t. The questions and calculations are mostly not disclosed to the public because of propriety, which made it almost impossible to reproduce the calculations and obtain the same risk ratings (Angwin et al, 2016). More importantly, defendants “rarely have the opportunity to challenge their assessments” because the calculations and how the ratings are calculated is not revealed. This may be unfair to the defendants, and could potentially be detrimental if the risk rating got it wrong.</p>
-<p>Citations.</p>
+<section id="scenario" class="level2">
+<h2 class="anchored" data-anchor-id="scenario">Scenario</h2>
+<p>The COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) algorithm was developed by a for-profit company called Northpointe. It is used in courtrooms across the U.S. to help inform sentencing decisions, set bail/bond amounts, and assist with other decision-making in the criminal justice system (Angwin et al., 2016). The algorithm’s key feature is to produce “risk ratings” for defendants based on their criminal history and their responses to a questionnaire of more than 100 questions (Angwin et al., 2016). A major ethical concern is that the algorithm appears to be racially and gender sensitive. It was found to be “particularly likely to falsely flag Black defendants as future criminals, wrongly labeling them this way at almost twice the rate of white defendants” (Angwin et al., 2016), and that “women were rated two classes worse than men” (Drosser et al., 2020).</p>
+<p>It is easy to conclude that the algorithm is biased—or even racist or sexist—against defendants, but the issue may be deeper than that. For one thing, the algorithm seems accurate in predicting recidivism rates across races. In other words, there is a similar proportion of white defendants who will re-offend compared to Black defendants with the same risk rating (Corbett-Davies et al., 2018), and that appears to be what the risk ratings were initially designed to reflect. It has been proposed that maybe it is impossible for an algorithm to achieve both:</p>
+<ul>
+<li><p>Well-calibrated risk between groups (where risk ratings mean the same thing across groups), and</p></li>
+<li><p>Equal false positive rates (not falsely flagging certain groups more than others).</p></li>
+</ul>
+<p>Maybe this is achievable in a perfect society where everyone receives equal resources, education, etc. But in our current world—where inequality and systemic discrimination are common, especially due to historical factors—racial groups may unfortunately correlate with the likelihood to commit (or recommit) a crime. This is known as base rate differences. That correlation may be the reason why it’s impossible to achieve both fairness criteria at once. (This argument is mainly derived from Corbett-Davies et al., 2018.)</p>
+</section>
+<section id="what-was-the-data-collection-process-were-the-observations-collected-ethically-are-there-missing-observations" class="level2">
+<h2 class="anchored" data-anchor-id="what-was-the-data-collection-process-were-the-observations-collected-ethically-are-there-missing-observations">What was the data collection process? Were the observations collected ethically? Are there missing observations?</h2>
+<p>An issue with the data collection process could be that data is acquired without the subject’s consent—or even their knowledge. Applying this to the example above is a bit tricky, because the subjects are suspects in criminal cases. In the algorithm, data are drawn from defendants’ criminal records (probably automatically), and the defendants are given some questions to answer. The fact that a private company can access someone’s criminal records may or may not be an issue, but some of the questions do seem problematic. For example, one question asks whether the defendant agrees or disagrees with statements like:</p>
+<blockquote class="blockquote">
+<p>“A hungry person has a right to steal,” and “If people make me angry or lose my temper, I can be dangerous.” (Angwin et al., 2016)</p>
+</blockquote>
+</section>
+<section id="is-the-data-being-used-in-unintended-ways-to-the-original-study" class="level2">
+<h2 class="anchored" data-anchor-id="is-the-data-being-used-in-unintended-ways-to-the-original-study">Is the data being used in unintended ways to the original study?</h2>
+<p>Yes. The algorithm was invented by Tim Brennan, a former professor of statistics at the University of Colorado. He later sold it to the for-profit company that currently runs it. Brennan claimed that his original focus was for the algorithm to “reduce crime rather than punish,” and he “does not like the idea that COMPAS [is] the sole evidence that a decision would be based upon” (Angwin et al., 2016). But whether he likes it or not, the algorithm has since been adopted by many courts and agencies in the criminal justice system across the country—and its use has definitely departed from its original intent.</p>
+</section>
+<section id="should-race-be-used-as-a-variable-is-it-a-proxy-for-something-else-what-about-gender" class="level2">
+<h2 class="anchored" data-anchor-id="should-race-be-used-as-a-variable-is-it-a-proxy-for-something-else-what-about-gender">Should race be used as a variable? Is it a proxy for something else? What about gender?</h2>
+<p>I think whether race is explicitly used as a variable or not, many algorithms—COMPAS included—still effectively <em>use</em> race through proxy attributes (the same goes for gender). Interestingly, according to Northpointe, race, gender, or any other protected social categories are not explicitly asked about or entered into the algorithm (Angwin et al., 2016). However, there are many reasons to believe the algorithm uses other <strong>proxies</strong> for race and gender. For instance, the algorithm appears to rate female defendants as “riskier” than male defendants by <strong>two full risk levels</strong>, according to one study (Drosser et al., 2020).</p>
+</section>
+<section id="did-it-create-reproducible-and-extensible-work" class="level2">
+<h2 class="anchored" data-anchor-id="did-it-create-reproducible-and-extensible-work">Did it create reproducible and extensible work?</h2>
+<p>It did not. The questions and calculations are mostly not disclosed to the public due to proprietary concerns, making it nearly impossible to reproduce the calculations or obtain the same risk ratings (Angwin et al., 2016). More importantly, defendants “rarely have the opportunity to challenge their assessments” because the calculation methods and logic behind the ratings are not revealed. This may be unfair to defendants and could be particularly harmful if the algorithm produces an inaccurate rating.</p>
+</section>
+<section id="citations" class="level2">
+<h2 class="anchored" data-anchor-id="citations">Citations</h2>
 <ol type="1">
-<li><p>Angwin, J., Larson, J., Mattu, S., &amp; Kirchner, L. (2016, May 23). Machine bias. ProPublica. https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing.</p></li>
-<li><p>Corbett-Davies, S., &amp; Goel, S. (2018, October 17). A computer program used for bail and sentencing decisions was labeled biased against blacks. It’s actually not that clear. The Washington Post. https://www.washingtonpost.com/news/monkey-cage/wp/2018/10/17/a-computer-program-used-for-bail-and-sentencing-decisions-was-labeled-biased-against-blacks-its-actually-not-that-clear/.</p></li>
-<li><p>Drosser, C. (2020, August 5). In order not to discriminate, we might have to discriminate. The New York Times. https://www.nytimes.com/2020/08/05/magazine/algorithm-discrimination.html.</p></li>
+<li><p>Angwin, J., Larson, J., Mattu, S., &amp; Kirchner, L. (2016, May 23). Machine bias. ProPublica. <a href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing" class="uri">https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing</a></p></li>
+<li><p>Corbett-Davies, S., &amp; Goel, S. (2018, October 17). A computer program used for bail and sentencing decisions was labeled biased against blacks. It’s actually not that clear. The Washington Post. <a href="https://www.washingtonpost.com/news/monkey-cage/wp/2018/10/17/a-computer-program-used-for-bail-and-sentencing-decisions-was-labeled-biased-against-blacks-its-actually-not-that-clear/" class="uri">https://www.washingtonpost.com/news/monkey-cage/wp/2018/10/17/a-computer-program-used-for-bail-and-sentencing-decisions-was-labeled-biased-against-blacks-its-actually-not-that-clear/</a></p></li>
+<li><p>Drosser, C. (2020, August 5). In order not to discriminate, we might have to discriminate. The New York Times. <a href="https://www.nytimes.com/2020/08/05/magazine/algorithm-discrimination.html" class="uri">https://www.nytimes.com/2020/08/05/magazine/algorithm-discrimination.html</a></p></li>
 </ol>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

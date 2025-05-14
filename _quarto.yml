@@ -8,23 +8,26 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: Jason CV.pdf
+        text: My CV
+        target: _blank
       - text: Projects
         menu:
-        - text: Scent & Frangrance
+        - text: Shiny
           href: The Scent of Data.qmd
-        - text: Childcare 
+        - text: Scatter Plot
           href: Childcare Costs.qmd
-        - text: Macbeth
+        - text: Regular Expression
           href: Strings.qmd
-        - text: Simulations
+        - text: Simulation
           href: Simulation Analysis.qmd
         - text: Ethics in Data Science 
           href: Ethics.qmd
         - text: SQL
           href: SQL.qmd
-      - text: DS002 Presentation
+      - text: How a project is done
         href: DS002 Final Prez.qmd
-
+        target: _blank
 
 format:
   html:
